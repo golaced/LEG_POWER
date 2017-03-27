@@ -63,6 +63,7 @@
 ..\obj\led_fc.o: ..\HARDWARE\IIC\flash.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\dma.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\leg.h
+..\obj\led_fc.o: ..\HARDWARE\IIC\rng.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\m100.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\circle.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\gps.h

@@ -62,6 +62,7 @@
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\flash.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\dma.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\leg.h
+..\obj\ucos_task.o: ..\HARDWARE\IIC\rng.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\m100.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\iic_soft.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\hml_sample.h
@@ -84,5 +85,3 @@
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\circle.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\gps.h
 ..\obj\ucos_task.o: ..\HARDWARE\IIC\eso.h
-..\obj\ucos_task.o: ..\HARDWARE\IIC\AttitudeEKF.h
-..\obj\ucos_task.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

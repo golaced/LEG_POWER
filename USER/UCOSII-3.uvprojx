@@ -334,7 +334,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\LED;..\HARDWARE\LCD;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\FWLIB\inc;..\HARDWARE\TOUCH;..\HARDWARE\BEEP;..\UCOSII\CONFIG;..\UCOSII\CORE;..\UCOSII\PORT;..\HARDWARE\TPAD;..\MALLOC</IncludePath>
+              <IncludePath>..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\HARDWARE\LED;..\HARDWARE\LCD;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\24CXX;..\FWLIB\inc;..\HARDWARE\TOUCH;..\HARDWARE\BEEP;..\UCOSII\CONFIG;..\UCOSII\CORE;..\UCOSII\PORT;..\HARDWARE\TPAD;..\MALLOC;..\HARDWARE\circle</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -607,6 +607,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\IIC\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>rng.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\IIC\rng.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -621,6 +626,28 @@
         </Group>
         <Group>
           <GroupName>MEMS</GroupName>
+          <Files>
+            <File>
+              <FileName>OLD_X_AVOID_N.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\circle\OLD_X_AVOID_N.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_nonfinite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\circle\rt_nonfinite.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtGetInf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\circle\rtGetInf.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtGetNaN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\circle\rtGetNaN.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>CONTROL</GroupName>

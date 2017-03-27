@@ -336,11 +336,11 @@ ARM Macro Assembler    Page 6
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=..\obj\os_cpu_a.d -o..\obj\os_cpu_a.o -I"F:\Quarotor\FC_MIN_·É¿
-ØÑÐ¾¿\UCOS - mini\4LEG_X\LEG_POWER\USER\RTE" -Ie:\Keil_v5\ARM\PACK\Keil\STM32F4
-xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -Ie:\Keil_v5\ARM\CMSIS\I
-nclude -Ie:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include --predefin
-e="__UVISION_VERSION SETA 520" --predefine="STM32F407xx SETA 1" --list=..\obj\o
-s_cpu_a.lst ..\UCOSII\PORT\os_cpu_a.asm
+ØÑÐ¾¿\UCOS - mini\4LEG_X\LEG_POWER - CONTROL\USER\RTE" -Ie:\Keil_v5\ARM\PACK\Ke
+il\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -Ie:\Keil_v5\A
+RM\CMSIS\Include -Ie:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include 
+--predefine="__UVISION_VERSION SETA 520" --predefine="STM32F407xx SETA 1" --lis
+t=..\obj\os_cpu_a.lst ..\UCOSII\PORT\os_cpu_a.asm
 
 
 

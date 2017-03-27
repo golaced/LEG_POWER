@@ -25,7 +25,8 @@
 #include "height_ctrl.h"
 #include "flash.h"
 #include "dma.h"
-#include "leg.h" 
+#include "leg.h"
+#include "rng.h" 
 /***************中断优先级******************/
 #define NVIC_GROUP NVIC_PriorityGroup_2		//中断分组选择
 #define NVIC_PWMIN_P			1		//接收机采集
@@ -94,6 +95,7 @@ extern float dj_angle_set,dj_angle_offset[3];
 #define EN_DMA_UART2 0  //SD
 #define EN_DMA_UART3 0  //GPS
 #define EN_DMA_UART4 0  //FLOW
+#define EN_DMA_UART6 1  //FLOW
 extern u8 fly_ready,force_Thr_low,mode_change;
 
 

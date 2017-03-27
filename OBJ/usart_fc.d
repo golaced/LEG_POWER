@@ -62,6 +62,7 @@
 ..\obj\usart_fc.o: ..\HARDWARE\IIC\flash.h
 ..\obj\usart_fc.o: ..\HARDWARE\IIC\dma.h
 ..\obj\usart_fc.o: ..\HARDWARE\IIC\leg.h
+..\obj\usart_fc.o: ..\HARDWARE\IIC\rng.h
 ..\obj\usart_fc.o: ..\HARDWARE\IIC\m100.h
 ..\obj\usart_fc.o: ..\UCOSII\CORE\ucos_ii.h
 ..\obj\usart_fc.o: ..\UCOSII\CONFIG\includes.h

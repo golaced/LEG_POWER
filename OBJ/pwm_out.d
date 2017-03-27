@@ -63,6 +63,7 @@
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\flash.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\dma.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\leg.h
+..\obj\pwm_out.o: ..\HARDWARE\IIC\rng.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\m100.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\my_math.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\filter.h

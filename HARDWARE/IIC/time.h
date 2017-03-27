@@ -25,12 +25,10 @@ void Initial_Timer_SYS(void);
 uint32_t micros(void);
 
 
-#define GET_T_OUTTER 0
-#define GET_T_INNER 1
-#define GET_T_FLOW_UART 2
-#define GET_T_SONAR_SAMPLE 3
-#define GET_T_BARO_UKF 4
-#define GET_T_HIGH_CONTROL_I 9
-#define GET_T_HIGH_CONTROL_O 10
+#define GET_T_BRAIN 0
+#define GET_T_LEG1 1
+#define GET_T_LEG2 2
+#define GET_T_LEG3 3
+#define GET_T_LEG4 4
 
 #endif

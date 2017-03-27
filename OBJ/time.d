@@ -62,4 +62,5 @@
 ..\obj\time.o: ..\HARDWARE\IIC\flash.h
 ..\obj\time.o: ..\HARDWARE\IIC\dma.h
 ..\obj\time.o: ..\HARDWARE\IIC\leg.h
+..\obj\time.o: ..\HARDWARE\IIC\rng.h
 ..\obj\time.o: ..\HARDWARE\IIC\m100.h

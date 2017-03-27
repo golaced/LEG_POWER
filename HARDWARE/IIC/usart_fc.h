@@ -274,6 +274,7 @@ extern void SD_LINK_TASK(void);
 extern void Usart1_Init(u32 br_num);//SD_board
 extern void Usart4_Init(u32 br_num);//-------SD_board
 extern void Usart3_Init(u32 br_num);//-------CPU_board
+void Uart6_Init(u32 br_num);//-----odroid
 extern u8 cnt_nav_board;
 extern u16 data_rate_gol_link;
 extern void UART2_ReportMotion(int16_t ax,int16_t ay,int16_t az,int16_t gx,int16_t gy,int16_t gz,

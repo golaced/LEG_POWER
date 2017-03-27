@@ -62,6 +62,7 @@
 ..\obj\flash.o: ..\HARDWARE\IIC\flash.h
 ..\obj\flash.o: ..\HARDWARE\IIC\dma.h
 ..\obj\flash.o: ..\HARDWARE\IIC\leg.h
+..\obj\flash.o: ..\HARDWARE\IIC\rng.h
 ..\obj\flash.o: ..\HARDWARE\IIC\m100.h
 ..\obj\flash.o: ..\HARDWARE\IIC\hml5833l.h
 ..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

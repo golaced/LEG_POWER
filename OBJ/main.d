@@ -62,6 +62,7 @@
 ..\obj\main.o: ..\HARDWARE\IIC\flash.h
 ..\obj\main.o: ..\HARDWARE\IIC\dma.h
 ..\obj\main.o: ..\HARDWARE\IIC\leg.h
+..\obj\main.o: ..\HARDWARE\IIC\rng.h
 ..\obj\main.o: ..\HARDWARE\IIC\m100.h
 ..\obj\main.o: ..\HARDWARE\IIC\led_fc.h
 ..\obj\main.o: ..\UCOSII\CORE\ucos_ii.h

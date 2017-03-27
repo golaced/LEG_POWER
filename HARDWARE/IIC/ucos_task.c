@@ -17,119 +17,93 @@
 #include "eso.h"
 #include "gps.h"
 #include "m100.h"
-//==============================传感器 任务函数==========================
-OS_STK MEMS_TASK_STK[MEMS_STK_SIZE];
-void mems_task(void *pdata)
-{		static u8 cnt,cnt1;						 
- 	while(1)
-	{
 
-	delay_ms(5);
-	}
-}		
-//--------------------
-
-OS_STK INNER_TASK_STK[INNER_STK_SIZE];
-float inner_loop_time;
-int Rc_Pwm_off[8];
-void inner_task(void *pdata)
-{NVIC_InitTypeDef NVIC_InitStructure;
+float leg_dt[5];
+OS_STK LEG1_TASK_STK[LEG_STK_SIZE];
+void leg1_task(void *pdata)
+{
  u8 i;
- static u8 dj_fly_line=0;
  static u8 init;	
- static int flag_scan=1;
+	leg_init(&leg[1],1);
  	while(1)
 	{
-	inner_loop_time = Get_Cycle_T(GET_T_INNER); 						//获取内环准确的执行周期
+	leg_dt[0] = Get_Cycle_T(GET_T_LEG1); 						//获取内环准确的执行周期
+  leg_drive(&leg[1],0.02);//leg_dt[0]);
   Send_LEG(1);
-	Send_LEG(2);
-	Send_LEG(3);
-	Send_LEG(4);		
-		
-	delay_ms(5);
+
+	delay_ms(20);
 	}
 }		
 
+OS_STK LEG2_TASK_STK[LEG_STK_SIZE];
+void leg2_task(void *pdata)
+{
+ u8 i;
+ static u8 init;	
+	leg_init(&leg[2],2);
+ 	while(1)
+	{
+	leg_dt[1] = Get_Cycle_T(GET_T_LEG2); 						//获取内环准确的执行周期
+leg_drive(&leg[2],0.02);//leg_dt[1]);
+  Send_LEG(2);
 
+	delay_ms(20);
+	}
+}		
+OS_STK LEG3_TASK_STK[LEG_STK_SIZE];
+void leg3_task(void *pdata)
+{
+ u8 i;
+ static u8 init;	
+	leg_init(&leg[3],3);
+ 	while(1)
+	{
+	leg_dt[2] = Get_Cycle_T(GET_T_LEG3); 						//获取内环准确的执行周期
+  leg_drive(&leg[3],0.02);//leg_dt[2]);
+  Send_LEG(3);
 
-//========================外环  任务函数============================
-OS_STK OUTER_TASK_STK[OUTER_STK_SIZE];
-float outer_loop_time;
-float Pitch_R,Roll_R,Yaw_R;
-void outer_task(void *pdata)
-{	static u8 cnt,cnt1,cnt2;						  
+	delay_ms(20);
+	}
+}		
+OS_STK LEG4_TASK_STK[LEG_STK_SIZE];
+void leg4_task(void *pdata)
+{
+ u8 i;
+ static u8 init;	
+	leg_init(&leg[4],4);
+ 	while(1)
+	{
+	leg_dt[3] = Get_Cycle_T(GET_T_LEG4); 						//获取内环准确的执行周期
+  leg_drive(&leg[4],0.02);//leg_dt[3]);
+  Send_LEG(4);
+
+	delay_ms(20);
+	}
+}		
+
+//========================外环  任务函数============================路径规划
+OS_STK BRAIN_TASK_STK[BRAIN_STK_SIZE];
+float test[5]={1,1,4};
+void brain_task(void *pdata)
+{	static u8 cnt,cnt1,cnt2,init;						  
  	while(1)
 	{	
-	outer_loop_time = Get_Cycle_T(GET_T_OUTTER);								//获取外环准确的执行周期
-	
-	delay_ms(5);
-	}
-}		
-//=========================射频 任务函数======================
-OS_STK NRF_TASK_STK[NRF_STK_SIZE];
-u8 en_shoot=0;
-void nrf_task(void *pdata)
-{							 
-	static u8 cnt,cnt2;
- 	while(1)
-	{
-  	
-	}
-}		
+	leg_dt[4] = Get_Cycle_T(GET_T_BRAIN);								//获取外环准确的执行周期
 
-//气压计 任务函数
-OS_STK BARO_TASK_STK[BARO_STK_SIZE];
-void baro_task(void *pdata)
-{							  
- 	while(1)
-	{ static u8 cnt;
-	 
-	}
-}	
-
-//=======================超声波 任务函数==================
-OS_STK SONAR_TASK_STK[SONAR_STK_SIZE];
-void sonar_task(void *pdata)
-{							  
- 	while(1)
-	{
 		
-		delay_ms(100);
-	}
-	  
-	
-}	
+	//test[2]=inTrig(test[0],test[1],0,0,0,5,5,0);
+  //test[4]=inTrig2(test[0],test[1],5,5,5,0,0,5,0,0);
+	//find_closet_point(test_id,test[0],0, 3,0, 5,0, 2,0 ,-1,0,test[2]);	
+  //find_leg_need_move(0,0,0);		
 
-#include "AttitudeEKF.h"
-//=======================光流 任务函数==================
-OS_STK FLOW_TASK_STK[FLOW_STK_SIZE];
-
-void flow_task(void *pdata)
-{	
- static float hc_speed_i[2],h_speed[2],wz_speed_0[2],tempacc_lpf[2];				
- float c_nb_dtb[3][3],a_br[3],tmp[3],acc[3];	
- 	while(1)
-	{
-	
-	delay_ms(5);
+	leg_task(0.02);
+		
+	center_control();	
+	cal_deng_from_spd(&brain);		
+	delay_ms(20);
 	}
-}	
-	
-//=======================M100 任务函数==================
-OS_STK M100_TASK_STK[M100_STK_SIZE];
-void m100_task(void *pdata)
-{		
-	static u8 cnt_m100;
-		static u8 en_vrcr,flag1;
-	static int m100_Rc_gr;
-	
-		while(1)
-	{
+}		
 
-	
-	delay_ms(5);
-	}
-}
 
 //=======================串口 任务函数===========================
 OS_STK  UART_TASK_STK[UART_STK_SIZE];
@@ -145,18 +119,18 @@ void uart_task(void *pdata)
 				
 				//UPLOAD			
 					
-					if(DMA_GetFlagStatus(DMA2_Stream7,DMA_FLAG_TCIF7)!=RESET)//等待DMA2_Steam7传输完成
-							{ 	
-							DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7);//清除DMA2_Steam7传输完成标志
-							clear_leg_uart();		
-							GOL_LINK_TASK_DMA();	
-							USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE);  //使能串口1的DMA发送     
-							MYDMA_Enable(DMA2_Stream7,leg_uart_cnt+2);     //开始一次DMA传输！	  
-							}	
+//					if(DMA_GetFlagStatus(DMA2_Stream7,DMA_FLAG_TCIF7)!=RESET)//等待DMA2_Steam7传输完成
+//							{ 	
+//							DMA_ClearFlag(DMA2_Stream7,DMA_FLAG_TCIF7);//清除DMA2_Steam7传输完成标志
+//							clear_leg_uart();		
+//							//GOL_LINK_TASK_DMA();	
+//							USART_DMACmd(USART1,USART_DMAReq_Tx,ENABLE);  //使能串口1的DMA发送     
+//							MYDMA_Enable(DMA2_Stream7,leg_uart_cnt+2);     //开始一次DMA传输！	  
+//							}	
 						
 	
 											
-		delay_ms(5);  
+		delay_ms(20);  
 	}
 }	
 
@@ -190,8 +164,8 @@ u8 i;
 static u16 cnt_1,cnt_2;	
 static u8 cnt;
   for(i=0;i<5;i++)
-	 if(leg[i].leg_loss_cnt++>2/0.05)leg[i].leg_connect=0;
-	 if(brain.leg_loss_cnt++>2/0.05)brain.leg_connect=0;
+	 if(leg[i].sys.leg_loss_cnt++>2/0.05)leg[i].leg_connect=0;
+	 if(brain.sys.leg_loss_cnt++>2/0.05)brain.leg_connect=0;
 	
 	
 }

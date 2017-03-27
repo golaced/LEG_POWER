@@ -30,8 +30,7 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_GROUP);//设置系统中断优先级分组2
 	delay_init(168);  //初始化延时函数
 	Initial_Timer_SYS();
-	Delay_ms(100);
-
+  RNG_Init();
 	Delay_ms(100);
 //------------------------Uart Init-------------------------------------
 	Usart1_Init(256000L);			//FC
@@ -44,7 +43,6 @@ int main(void)
 	#endif
 	
   Usart4_Init(256000L);     //LEG3
-
 	#if EN_DMA_UART4 
 	MYDMA_Config(DMA1_Stream4,DMA_Channel_4,(u32)&UART4->DR,(u32)SendBuff4,SEND_BUF_SIZE4+2,0);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
 	#endif							
@@ -52,7 +50,10 @@ int main(void)
 	#if EN_DMA_UART3
 	MYDMA_Config(DMA1_Stream3,DMA_Channel_4,(u32)&USART3->DR,(u32)SendBuff3,SEND_BUF_SIZE3+2,2);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
   #endif
-  Uart5_Init (256000L);      //LEG4
+  Uart5_Init (256000L);     //LEG4
+	Delay_ms(100);
+	
+	Uart6_Init (115200L);     //IDLE
 	Delay_ms(100);
 	//-----------------DMA Init--------------------------
 #if EN_DMA_UART4 
@@ -73,6 +74,7 @@ int main(void)
 #endif		
 	Delay_ms(100);
   LED_Init();								//LED功能初始化
+	
 	//---------------初始化UCOSII--------------------------
 	OSInit();  	 				
 	OSTaskCreate(start_task,(void *)0,(OS_STK *)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );//创建起始任务
@@ -98,17 +100,15 @@ void start_task(void *pdata)
 	OSTmrStart(tmr2,&err);//启动软件定时器1				 	
  	OS_ENTER_CRITICAL();			//进入临界区(无法被中断打断)    
  	//注册线程 	
-// OSTaskCreate(mems_task,(void *)0,(OS_STK*)&MEMS_TASK_STK[MEMS_STK_SIZE-1],MEMS_TASK_PRIO);		
-	OSTaskCreate(inner_task,(void *)0,(OS_STK*)&INNER_TASK_STK[INNER_STK_SIZE-1],INNER_TASK_PRIO);	 
-//	OSTaskCreate(outer_task,(void *)0,(OS_STK*)&OUTER_TASK_STK[OUTER_STK_SIZE-1],OUTER_TASK_PRIO);
-//	OSTaskCreate(baro_task,(void *)0,(OS_STK*)&BARO_TASK_STK[BARO_STK_SIZE-1],BARO_TASK_PRIO);
-//	OSTaskCreate(sonar_task,(void *)0,(OS_STK*)&SONAR_TASK_STK[SONAR_STK_SIZE-1],SONAR_TASK_PRIO);	
-//	OSTaskCreate(nrf_task,(void *)0,(OS_STK*)&NRF_TASK_STK[NRF_STK_SIZE-1],NRF_TASK_PRIO);
+	 OSTaskCreate(brain_task,(void *)0,(OS_STK*)&BRAIN_TASK_STK[BRAIN_STK_SIZE-1],BRAIN_TASK_PRIO);//路径规划
+
 	 OSTaskCreate(uart_task,(void *)0,(OS_STK*)&UART_TASK_STK[UART_STK_SIZE-1],UART_TASK_PRIO);
-//	OSTaskCreate(flow_task,(void *)0,(OS_STK*)&FLOW_TASK_STK[FLOW_STK_SIZE-1],FLOW_TASK_PRIO);
-	#if USE_M100
-//	OSTaskCreate(m100_task,(void *)0,(OS_STK*)&M100_TASK_STK[M100_STK_SIZE-1],M100_TASK_PRIO);
-	#endif
+
+	 OSTaskCreate(leg1_task,(void *)0,(OS_STK*)&LEG1_TASK_STK[LEG_STK_SIZE-1],LEG1_TASK_PRIO);
+	 OSTaskCreate(leg2_task,(void *)0,(OS_STK*)&LEG2_TASK_STK[LEG_STK_SIZE-1],LEG2_TASK_PRIO);
+	 OSTaskCreate(leg3_task,(void *)0,(OS_STK*)&LEG3_TASK_STK[LEG_STK_SIZE-1],LEG3_TASK_PRIO);
+	 OSTaskCreate(leg4_task,(void *)0,(OS_STK*)&LEG4_TASK_STK[LEG_STK_SIZE-1],LEG4_TASK_PRIO);
+
 	//--
  	OSTaskSuspend(START_TASK_PRIO);	//挂起起始任务.
 	OS_EXIT_CRITICAL();				//退出临界区(可以被中断打断)

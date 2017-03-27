@@ -327,6 +327,62 @@ void Uart5_Init(u32 br_num)//-----odroid
 
 
 }
+
+void Uart6_Init(u32 br_num)//-----odroid
+{
+	USART_InitTypeDef USART_InitStructure;
+	//USART_ClockInitTypeDef USART_ClockInitStruct;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE); //开启USART2时钟
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);	
+	
+	//串口中断优先级
+	NVIC_InitStructure.NVIC_IRQChannel = USART6_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority =2;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);	
+
+	
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART6);
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART6);
+	
+	//配置PC12作为UART5　Tx
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP ;
+  GPIO_Init(GPIOC, &GPIO_InitStructure); 
+	//配置PD2作为UART5　Rx
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 ; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
+  GPIO_Init(GPIOC, &GPIO_InitStructure); 
+	
+	//配置UART5
+	//中断被屏蔽了
+	USART_InitStructure.USART_BaudRate = br_num;       //波特率可以通过地面站配置
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;  //8位数据
+	USART_InitStructure.USART_StopBits = USART_StopBits_1;   //在帧结尾传输1个停止位
+	USART_InitStructure.USART_Parity = USART_Parity_No;    //禁用奇偶校验
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None; //硬件流控制失能
+	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;  //发送、接收使能
+	USART_Init(USART6, &USART_InitStructure);
+	
+
+
+	//使能UART5接收中断
+	USART_ITConfig(USART6, USART_IT_RXNE, ENABLE);
+	//使能USART5
+	USART_Cmd(USART6, ENABLE); 
+}
+
+
 void UsartSend_LEG1(uint8_t ch)
 {
 while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
@@ -373,48 +429,86 @@ void Send_LEG(u8 sel)
 	data_to_send[_cnt++]=0xAF;
 	data_to_send[_cnt++]=sel;//功能字
 	data_to_send[_cnt++]=0;//数据量
-  _temp=leg[sel].pos_tar[0].x*10;
+  _temp=leg[sel].pos_tar[0].x*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[0].x*10;
+	 _temp=leg[sel].pos_tar[0].x*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[0].x*10;
+	 _temp=leg[sel].pos_tar[0].x*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[1].x*10;
+	 _temp=leg[sel].pos_tar[1].x*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[1].y*10;
+	 _temp=leg[sel].pos_tar[1].y*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[1].z*10;
+	 _temp=leg[sel].pos_tar[1].z*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[2].x*10;
+	 _temp=leg[sel].pos_tar[2].x*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[2].y*10;
+	 _temp=leg[sel].pos_tar[2].y*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	 _temp=leg[sel].pos_tar[2].z*10;
+	 _temp=leg[sel].pos_tar[2].z*1000;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp=leg[sel].sita_tar[0]*10;
+	_temp=leg[sel].sys.sita_tar[0]*10;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp=leg[sel].sita_tar[1]*10;
+	_temp=leg[sel].sys.sita_tar[1]*10;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp=leg[sel].sita_tar[2]*10;
+	_temp=leg[sel].sys.sita_tar[2]*10;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
+	if(brain.control_mode)
+	_temp=1;	
+	else
 	_temp=leg[sel].control_mode;
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp=brain.leg_connect;
+	_temp=brain.sys.leg_use_ground;
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp=brain.control_mode;
+	_temp=0;//brain.control_mode;
 	data_to_send[_cnt++]=BYTE0(_temp);
+	if(brain.power_all)
+	_temp=1;	
+	else
+	_temp=leg[sel].leg_power;
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=leg[sel].deng[0]*10;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=leg[sel].deng[1]*10;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	
+	_temp=brain.sys.center_off.x*10;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=brain.sys.center_off.y*10;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+		_temp=brain.sys.leg_t*1000;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+		_temp=brain.sys.leg_h*1000;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=brain.sys.off_leg[sel].x*1000;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=brain.sys.off_leg[sel].y*1000;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	_temp=brain.sys.off_leg[sel].z*1000;
+	data_to_send[_cnt++]=BYTE1(_temp);
+	data_to_send[_cnt++]=BYTE0(_temp);
+	
+	
   data_to_send[3] = _cnt-4;
 	for( i=0;i<_cnt;i++)
 		sum += data_to_send[i];
@@ -437,7 +531,7 @@ void Data_LEG_CMD(u8 *data_buf,u8 num,u8 sel)
   if(*(data_buf+2)>=1&&*(data_buf+2)<=4)//FLOW_MINE_frame
   { id=*(data_buf+2);
 	  brain.leg_connect=1;
-		brain.leg_loss_cnt=0;
+		brain.sys.leg_loss_cnt=0;
 	  leg[id].pos_tar[0].x=(float)((int16_t)(*(data_buf+4)<<8)|*(data_buf+5))/10;
 		leg[id].pos_tar[0].y=(float)((int16_t)(*(data_buf+6)<<8)|*(data_buf+7))/10;
 	  leg[id].pos_tar[0].z=(float)((int16_t)(*(data_buf+8)<<8)|*(data_buf+9))/10;
@@ -447,11 +541,13 @@ void Data_LEG_CMD(u8 *data_buf,u8 num,u8 sel)
 		leg[id].pos_tar[2].x=(float)((int16_t)(*(data_buf+16)<<8)|*(data_buf+17))/10;
 		leg[id].pos_tar[2].y=(float)((int16_t)(*(data_buf+18)<<8)|*(data_buf+19)/10);
 		leg[id].pos_tar[2].z=(float)((int16_t)(*(data_buf+20)<<8)|*(data_buf+21))/10;
-		leg[id].sita_tar[0]		 =(float)((int16_t)(*(data_buf+22)<<8)|*(data_buf+23))/10;
-		leg[id].sita_tar[1]		 =(float)((int16_t)(*(data_buf+24)<<8)|*(data_buf+25))/10;
-		leg[id].sita_tar[2]		 =(float)((int16_t)(*(data_buf+26)<<8)|*(data_buf+27))/10;
+		leg[id].sys.sita_tar[0]		 =(float)((int16_t)(*(data_buf+22)<<8)|*(data_buf+23))/10;
+		leg[id].sys.sita_tar[1]		 =(float)((int16_t)(*(data_buf+24)<<8)|*(data_buf+25))/10;
+		leg[id].sys.sita_tar[2]		 =(float)((int16_t)(*(data_buf+26)<<8)|*(data_buf+27))/10;
 	  leg[id].control_mode		 							 =*(data_buf+28);
-
+		leg[id].deng[0]		 =(float)((int16_t)(*(data_buf+29)<<8)|*(data_buf+30))/1;
+		leg[id].deng[1]		 =(float)((int16_t)(*(data_buf+31)<<8)|*(data_buf+32))/1;
+    
 	
 	}		
 }
@@ -537,7 +633,7 @@ void USART1_IRQHandler(void)
 }
 
 //leg1
-
+u8 set1=0;
  void Data_LEG(u8 *data_buf,u8 num,u8 sel)
 { static u8 cnt[4];
 	vs16 rc_value_temp;
@@ -551,7 +647,7 @@ void USART1_IRQHandler(void)
   {
 	if(cnt[sel]++>100){cnt[sel]=0;	LEDRGB_STATE(sel);}
 	  leg[sel].leg_connect=1;
-		leg[sel].leg_loss_cnt=0;
+		leg[sel].sys.leg_loss_cnt=0;
 	  leg[sel].pos_now[0].x=(float)((int16_t)(*(data_buf+4)<<8)|*(data_buf+5))/10;
 		leg[sel].pos_now[0].y=(float)((int16_t)(*(data_buf+6)<<8)|*(data_buf+7))/10;
 	  leg[sel].pos_now[0].z=(float)((int16_t)(*(data_buf+8)<<8)|*(data_buf+9))/10;
@@ -559,14 +655,24 @@ void USART1_IRQHandler(void)
 		leg[sel].pos_now[1].y=(float)((int16_t)(*(data_buf+12)<<8)|*(data_buf+13))/10;
 		leg[sel].pos_now[1].z=(float)((int16_t)(*(data_buf+14)<<8)|*(data_buf+15))/10;
 		leg[sel].pos_now[2].x=(float)((int16_t)(*(data_buf+16)<<8)|*(data_buf+17))/10;
-		leg[sel].pos_now[2].y=(float)((int16_t)(*(data_buf+18)<<8)|*(data_buf+19)/10);
+		leg[sel].pos_now[2].y=(float)((int16_t)(*(data_buf+18)<<8)|*(data_buf+19))/10;
 		leg[sel].pos_now[2].z=(float)((int16_t)(*(data_buf+20)<<8)|*(data_buf+21))/10;
 		leg[sel].sita[0]		 =(float)((int16_t)(*(data_buf+22)<<8)|*(data_buf+23))/10;
 		leg[sel].sita[1]		 =(float)((int16_t)(*(data_buf+24)<<8)|*(data_buf+25))/10;
 		leg[sel].sita[2]		 =(float)((int16_t)(*(data_buf+26)<<8)|*(data_buf+27))/10;
-	  leg[sel].leg_ground		 							   =*(data_buf+28);
-	  leg[sel].err		 					 						 =*(data_buf+29);
+	  if(*(data_buf+28))
+			 leg[sel].sys.leg_ground_cnt++;
+		else
+		{leg[sel].leg_ground= leg[sel].sys.leg_ground_cnt=0;}
+		if(leg[sel].sys.leg_ground_cnt>set1)
+	  leg[sel].leg_ground=1;		 							   
 	
+	
+	  leg[sel].err		 					 						 =*(data_buf+29);
+	  leg[sel].leg_end_force[2]=(float)((int16_t)(*(data_buf+30)<<8)|*(data_buf+31))/1000.;
+	  leg[sel].pos_tar_trig[2].x=(float)((int16_t)(*(data_buf+32)<<8)|*(data_buf+33))/10;
+	  leg[sel].pos_tar_trig[2].y=(float)((int16_t)(*(data_buf+34)<<8)|*(data_buf+35))/10;
+	  leg[sel].pos_tar_trig[2].z=(float)((int16_t)(*(data_buf+36)<<8)|*(data_buf+37))/10;
 	}		
 }
 

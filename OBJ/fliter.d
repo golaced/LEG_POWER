@@ -62,6 +62,7 @@
 ..\obj\fliter.o: ..\HARDWARE\IIC\flash.h
 ..\obj\fliter.o: ..\HARDWARE\IIC\dma.h
 ..\obj\fliter.o: ..\HARDWARE\IIC\leg.h
+..\obj\fliter.o: ..\HARDWARE\IIC\rng.h
 ..\obj\fliter.o: ..\HARDWARE\IIC\m100.h
 ..\obj\fliter.o: ..\HARDWARE\IIC\filter.h
 ..\obj\fliter.o: ..\HARDWARE\IIC\my_math.h
