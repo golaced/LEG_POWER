@@ -2,7 +2,7 @@
 ..\obj\time.o: ..\HARDWARE\IIC\time.h
 ..\obj\time.o: ..\USER\stm32f4xx.h
 ..\obj\time.o: ..\CORE\core_cm4.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\time.o: ..\CORE\core_cmInstr.h
 ..\obj\time.o: ..\CORE\core_cmFunc.h
 ..\obj\time.o: ..\CORE\core_cm4_simd.h
@@ -36,11 +36,11 @@
 ..\obj\time.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\time.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\time.o: ..\HARDWARE\IIC\include.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\time.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\time.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\time.o: ..\HARDWARE\IIC\mpu6050.h
 ..\obj\time.o: ..\HARDWARE\IIC\include.h
 ..\obj\time.o: ..\HARDWARE\IIC\parameter.h

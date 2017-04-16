@@ -22,9 +22,9 @@ void leg_init( LEG_STRUCT *in,u8 id)
 	
 in->sys.id=id;
 in->sys.init_mode=0;	
-in->sys.l1=6.5;
-in->sys.l2=7.2;
-in->sys.l3=9.3;	
+in->sys.l1=4.5;
+in->sys.l2=14.5;
+in->sys.l3=14.5;	
 
 in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=0;	
 in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;	
@@ -36,13 +36,13 @@ in->sys.limit.z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;
 	
 in->sys.limit_min.z=(in->sys.l3-(in->sys.l2-in->sys.l1))*1.05;
 
-in->sys.desire_time=0.25;
+in->sys.desire_time=0.35;
 switch(in->sys.id){
 case 1:	
 in->sys.leg_set_invert=0;
-in->sys.PWM_OFF[0]=570;	
-in->sys.PWM_OFF[1]=1870;	
-in->sys.PWM_OFF[2]=1500;		
+in->sys.PWM_OFF[0]=1970;//570;	
+in->sys.PWM_OFF[1]=2100;//1870;	
+in->sys.PWM_OFF[2]=1610;//1600		
 in->sys.sita_flag[0]=1;
 in->sys.sita_flag[1]=-1;	
 in->sys.sita_flag[2]=-1;
@@ -84,7 +84,7 @@ in->sys.PWM_MAX[0]=2500;
 in->sys.PWM_MAX[1]=2500;	
 in->sys.PWM_MAX[2]=2500;	
 
-in->sys.PWM_PER_DEGREE=9;//9.1;		
+in->sys.PWM_PER_DEGREE=7.8;//9.1;		
 
 in->sys.en_pwm_out=1;
 
@@ -165,8 +165,10 @@ in->pos_now[2].x=(l1+h1+h2)*sin(sita3*AtR);in->pos_now[2].y=-cos(sita1*AtR)*d1+c
 }	
 
 void cal_pwm_from_sita(LEG_STRUCT * in)
-{ u8 i;
-	for(i=0;i<3;i++)
+{ u8 i=0;
+	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]-90*in->sys.sita_flag[i]*in->sys.PWM_PER_DEGREE
+	+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
+	for(i=1;i<3;i++)
 	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
 	
 }	
@@ -351,6 +353,14 @@ u8 force_test_mode;
 void leg_publish(LEG_STRUCT * in)
 {
 float x_temp,y_temp,z_temp;
+static u16 cnt[5];	
+	
+	#if USE_BUS_DJ
+	if(in->leg_power==0){	
+		if(cnt[in->sys.id]++>1/0.02){cnt[in->sys.id]=0;
+		LEG_POWER_OFF(in->sys.id);}
+	}
+	#endif
   if(in->control_mode||force_test_mode)
 	{	
 	
@@ -366,6 +376,8 @@ float x_temp,y_temp,z_temp;
 	}		
 	cal_sita_from_pos(in,x_temp+in->sys.off_local.x+in->sys.off_all.x,y_temp+in->sys.off_local.y+in->sys.off_all.y,
 	z_temp+in->sys.off_local.z+in->sys.off_all.z,1);
+	 if(line_test[3]){
+	in->sita[0]=sita_test[0];in->sita[1]=sita_test[1];in->sita[2]=sita_test[2];}
   cal_pwm_from_sita(in);		
 	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);	
 	}
@@ -381,10 +393,14 @@ float x_temp,y_temp,z_temp;
 	y_temp=in->sys.init_end_pos.y+in->sys.off_all.y;
 	z_temp=in->sys.init_end_pos.z+in->sys.off_all.z;
 	}		
-	cal_sita_from_pos(in,x_temp+in->sys.off_local.x,y_temp+in->sys.off_local.y,z_temp+in->sys.off_local.z,1);	
-	}
-  if(line_test[3]){
+	cal_sita_from_pos(in,x_temp+in->sys.off_local.x+in->sys.off_all.x,y_temp+in->sys.off_local.y+in->sys.off_all.y,
+	z_temp+in->sys.off_local.z+in->sys.off_all.z,1);
+	 if(line_test[3]){
 	in->sita[0]=sita_test[0];in->sita[1]=sita_test[1];in->sita[2]=sita_test[2];}
+  cal_pwm_from_sita(in);		
+	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);	
+	}
+ 
 	
 }
 

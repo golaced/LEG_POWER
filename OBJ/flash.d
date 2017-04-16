@@ -1,13 +1,13 @@
 ..\obj\flash.o: ..\HARDWARE\IIC\flash.c
 ..\obj\flash.o: ..\HARDWARE\IIC\include.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\flash.o: ..\USER\stm32f4xx.h
 ..\obj\flash.o: ..\CORE\core_cm4.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\flash.o: ..\CORE\core_cmInstr.h
 ..\obj\flash.o: ..\CORE\core_cmFunc.h
 ..\obj\flash.o: ..\CORE\core_cm4_simd.h
@@ -65,5 +65,5 @@
 ..\obj\flash.o: ..\HARDWARE\IIC\rng.h
 ..\obj\flash.o: ..\HARDWARE\IIC\m100.h
 ..\obj\flash.o: ..\HARDWARE\IIC\hml5833l.h
-..\obj\flash.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+..\obj\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\flash.o: ..\HARDWARE\IIC\pwm_in.h

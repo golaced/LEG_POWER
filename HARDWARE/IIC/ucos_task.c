@@ -30,7 +30,7 @@ void leg1_task(void *pdata)
 	leg_dt[0] = Get_Cycle_T(GET_T_LEG1); 						//获取内环准确的执行周期
   leg_drive(&leg[1],0.02);//leg_dt[0]);
   Send_LEG(1);
-
+  //UsartSend_LEG_BUF_BUF(1);
 	delay_ms(20);
 	}
 }		
@@ -44,7 +44,7 @@ void leg2_task(void *pdata)
  	while(1)
 	{
 	leg_dt[1] = Get_Cycle_T(GET_T_LEG2); 						//获取内环准确的执行周期
-leg_drive(&leg[2],0.02);//leg_dt[1]);
+  leg_drive(&leg[2],0.02);//leg_dt[1]);
   Send_LEG(2);
 
 	delay_ms(20);

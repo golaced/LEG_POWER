@@ -2,7 +2,7 @@
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\pwm_in.h
 ..\obj\pwm_out.o: ..\USER\stm32f4xx.h
 ..\obj\pwm_out.o: ..\CORE\core_cm4.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\pwm_out.o: ..\CORE\core_cmInstr.h
 ..\obj\pwm_out.o: ..\CORE\core_cmFunc.h
 ..\obj\pwm_out.o: ..\CORE\core_cm4_simd.h
@@ -37,11 +37,11 @@
 ..\obj\pwm_out.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\pwm_out.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\include.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\pwm_out.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\pwm_out.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\time.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\mpu6050.h
 ..\obj\pwm_out.o: ..\HARDWARE\IIC\include.h

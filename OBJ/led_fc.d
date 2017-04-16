@@ -2,7 +2,7 @@
 ..\obj\led_fc.o: ..\HARDWARE\IIC\led_fc.h
 ..\obj\led_fc.o: ..\USER\stm32f4xx.h
 ..\obj\led_fc.o: ..\CORE\core_cm4.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\led_fc.o: ..\CORE\core_cmInstr.h
 ..\obj\led_fc.o: ..\CORE\core_cmFunc.h
 ..\obj\led_fc.o: ..\CORE\core_cm4_simd.h
@@ -36,11 +36,11 @@
 ..\obj\led_fc.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\led_fc.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\include.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\led_fc.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\led_fc.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\time.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\mpu6050.h
 ..\obj\led_fc.o: ..\HARDWARE\IIC\include.h

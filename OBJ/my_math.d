@@ -2,7 +2,7 @@
 ..\obj\my_math.o: ..\HARDWARE\IIC\my_math.h
 ..\obj\my_math.o: ..\USER\stm32f4xx.h
 ..\obj\my_math.o: ..\CORE\core_cm4.h
-..\obj\my_math.o: e:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\my_math.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\my_math.o: ..\CORE\core_cmInstr.h
 ..\obj\my_math.o: ..\CORE\core_cmFunc.h
 ..\obj\my_math.o: ..\CORE\core_cm4_simd.h

@@ -403,7 +403,6 @@ void UsartSend_LEG4(uint8_t ch)
 while(USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET);
 USART_SendData(UART5, ch); 
 }
-
 static void UsartSend_LEG_BUF(u8 *dataToSend , u8 length,u8 sel)
 {
 u16 i;
@@ -420,11 +419,90 @@ u16 i;
 		 
 }
 
+//#1P1500T100
+
+char* my_itoa(int value,char *str,int radix)
+{
+	int sign = 0;
+	//char *s = str;
+	char ps[32];int i=0,j=0;
+	memset(ps,0,32);
+	
+	if(value < 0)
+	{
+		sign = -1;
+		value = -value;
+	}
+	do
+	{
+		if(value%radix>9)
+			ps[i] = value%radix +'0'+7;
+		else 
+			ps[i] = value%radix +'0';
+		i++;
+	}while((value/=radix)>0);
+	if(sign<0)
+		ps[i] = '-';
+	else
+		i--;
+	for(j=i;j>=0;j--)
+	{
+		str[i-j] = ps[j];
+	}
+	return str;
+}
+u16 test_leg[3]={1234,12,123};
+void UsartSend_LEG_BUF_BUF(u8 sel)
+{u8 i=0,j,cnt=0;
+ char conver[3][4]={0}	;
+ u8 buf[40]={0};
+ static u8 id_sel[4][3];
+ 
+  for(i=0;i<3;i++){
+  buf[cnt++]='#';
+  buf[cnt++]=i+1+48;
+  buf[cnt++]='P';
+	my_itoa(leg[sel].sys.PWM_OUT[i],&conver[i][0],10);	
+	//my_itoa(test_leg[i],conver[i],10);	
+	for(j=0;j<4;j++)
+		if(conver[i][j]!=0)
+			buf[cnt++]=conver[i][j];
+		else
+			break;
+	buf[cnt++]='T';
+  buf[cnt++]='1';
+  buf[cnt++]=0x0d;
+  buf[cnt++]=0x0a;	
+  }
+	
+	UsartSend_LEG_BUF(buf,cnt,sel);
+}
+//#1PULK 
+void LEG_POWER_OFF(u8 sel)
+{u8 i=0,j,cnt=0;
+ u8 buf[40]={0};
+
+ 
+  for(i=0;i<3;i++){
+  buf[cnt++]='#';
+  buf[cnt++]=i+1+48;
+  buf[cnt++]='P';
+	buf[cnt++]='U';
+  buf[cnt++]='L';
+	buf[cnt++]='K';	
+  buf[cnt++]=0x0d;
+  buf[cnt++]=0x0a;	
+  }
+	
+	UsartSend_LEG_BUF(buf,cnt,sel);
+}
+
 void Send_LEG(u8 sel)
 {u8 i;	u8 sum = 0;
 	u8 data_to_send[50]={0};
 	u8 _cnt=0;
 	vs16 _temp;
+	#if !USE_BUS_DJ
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAF;
 	data_to_send[_cnt++]=sel;//¹¦ÄÜ×Ö
@@ -515,6 +593,10 @@ void Send_LEG(u8 sel)
 	data_to_send[_cnt++] = sum;
 	
 	UsartSend_LEG_BUF(data_to_send, _cnt,sel);
+	#else
+	if(leg[sel].leg_power)
+	UsartSend_LEG_BUF_BUF(sel);
+	#endif
 }
 
 //-----------------------------------------------CMD Topic

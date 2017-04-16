@@ -2,7 +2,8 @@
 #define _USART_H
 
 #include "stm32f4xx.h"
-
+void UsartSend_LEG_BUF_BUF(u8 sel);
+void LEG_POWER_OFF(u8 sel);
 extern u8 Rx_Buf[];
 void Usart2_Init(u32 br_num);
 void Usart2_IRQ(void);
