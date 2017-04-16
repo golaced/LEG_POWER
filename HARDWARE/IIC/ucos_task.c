@@ -28,10 +28,10 @@ void leg1_task(void *pdata)
  	while(1)
 	{
 	leg_dt[0] = Get_Cycle_T(GET_T_LEG1); 						//获取内环准确的执行周期
-  leg_drive(&leg[1],0.02);//leg_dt[0]);
+  leg_drive(&leg[1],0.01);//leg_dt[0]);
   Send_LEG(1);
   //UsartSend_LEG_BUF_BUF(1);
-	delay_ms(20);
+	delay_ms(10);
 	}
 }		
 
@@ -44,10 +44,10 @@ void leg2_task(void *pdata)
  	while(1)
 	{
 	leg_dt[1] = Get_Cycle_T(GET_T_LEG2); 						//获取内环准确的执行周期
-  leg_drive(&leg[2],0.02);//leg_dt[1]);
+  leg_drive(&leg[2],0.01);//leg_dt[1]);
   Send_LEG(2);
 
-	delay_ms(20);
+	delay_ms(10);
 	}
 }		
 OS_STK LEG3_TASK_STK[LEG_STK_SIZE];
@@ -59,10 +59,10 @@ void leg3_task(void *pdata)
  	while(1)
 	{
 	leg_dt[2] = Get_Cycle_T(GET_T_LEG3); 						//获取内环准确的执行周期
-  leg_drive(&leg[3],0.02);//leg_dt[2]);
+  leg_drive(&leg[3],0.01);//leg_dt[2]);
   Send_LEG(3);
 
-	delay_ms(20);
+	delay_ms(10);
 	}
 }		
 OS_STK LEG4_TASK_STK[LEG_STK_SIZE];
@@ -74,10 +74,10 @@ void leg4_task(void *pdata)
  	while(1)
 	{
 	leg_dt[3] = Get_Cycle_T(GET_T_LEG4); 						//获取内环准确的执行周期
-  leg_drive(&leg[4],0.02);//leg_dt[3]);
+  leg_drive(&leg[4],0.01);//leg_dt[3]);
   Send_LEG(4);
 
-	delay_ms(20);
+	delay_ms(10);
 	}
 }		
 

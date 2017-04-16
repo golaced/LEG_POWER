@@ -24,7 +24,7 @@ in->sys.id=id;
 in->sys.init_mode=0;	
 in->sys.l1=4.5;
 in->sys.l2=14.5;
-in->sys.l3=14.5;	
+in->sys.l3=14.3;	
 
 in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=0;	
 in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;	
@@ -40,39 +40,39 @@ in->sys.desire_time=0.35;
 switch(in->sys.id){
 case 1:	
 in->sys.leg_set_invert=0;
-in->sys.PWM_OFF[0]=1970;//570;	
+in->sys.PWM_OFF[0]=2222;//570;	
 in->sys.PWM_OFF[1]=2100;//1870;	
 in->sys.PWM_OFF[2]=1610;//1600		
-in->sys.sita_flag[0]=1;
+in->sys.sita_flag[0]=-1;
 in->sys.sita_flag[1]=-1;	
-in->sys.sita_flag[2]=-1;
+in->sys.sita_flag[2]=1;
 break;
 case 2:	
-in->sys.leg_set_invert=1;
-in->sys.PWM_OFF[0]=520;	
-in->sys.PWM_OFF[1]=2200;	
-in->sys.PWM_OFF[2]=1650;	
-in->sys.sita_flag[0]=1;
+in->sys.leg_set_invert=0;
+in->sys.PWM_OFF[0]=2180;	
+in->sys.PWM_OFF[1]=1680;	
+in->sys.PWM_OFF[2]=1300;	
+in->sys.sita_flag[0]=-1;
 in->sys.sita_flag[1]=-1;	
-in->sys.sita_flag[2]=-1;		
+in->sys.sita_flag[2]=1;		
 break;
 case 3:	
 in->sys.leg_set_invert=0;	
-in->sys.PWM_OFF[0]=1925;	
-in->sys.PWM_OFF[1]=625;	
-in->sys.PWM_OFF[2]=1450;	
-in->sys.sita_flag[0]=-1;
+in->sys.PWM_OFF[0]=825;	
+in->sys.PWM_OFF[1]=1200;	
+in->sys.PWM_OFF[2]=1490;	
+in->sys.sita_flag[0]=1;
 in->sys.sita_flag[1]=1;	
-in->sys.sita_flag[2]=-1;	
+in->sys.sita_flag[2]=1;
 break;
 case 4:	
-in->sys.leg_set_invert=1;	
-in->sys.PWM_OFF[0]=2025;	
-in->sys.PWM_OFF[1]=760;	
-in->sys.PWM_OFF[2]=1750;	
-in->sys.sita_flag[0]=-1;
+in->sys.leg_set_invert=0;	
+in->sys.PWM_OFF[0]=650;	
+in->sys.PWM_OFF[1]=1230;	
+in->sys.PWM_OFF[2]=1480;	
+in->sys.sita_flag[0]=1;
 in->sys.sita_flag[1]=1;	
-in->sys.sita_flag[2]=-1;	
+in->sys.sita_flag[2]=1;
 break;
 }
 
@@ -166,7 +166,7 @@ in->pos_now[2].x=(l1+h1+h2)*sin(sita3*AtR);in->pos_now[2].y=-cos(sita1*AtR)*d1+c
 
 void cal_pwm_from_sita(LEG_STRUCT * in)
 { u8 i=0;
-	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]-90*in->sys.sita_flag[i]*in->sys.PWM_PER_DEGREE
+	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]+0*in->sys.sita_flag[i]*in->sys.PWM_PER_DEGREE
 	+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
 	for(i=1;i<3;i++)
 	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
@@ -347,7 +347,7 @@ static float time;
 
 
 
-float sita_test[3];
+float sita_test[3]={90,0,0};
 u8 line_test[4];
 u8 force_test_mode;
 void leg_publish(LEG_STRUCT * in)
@@ -408,7 +408,7 @@ static u16 cnt[5];
 
 void leg_drive(LEG_STRUCT * in,float dt)
 {    
-    if(in->sys.pos_tar_trig_test[2].z!=19||in->sys.pos_tar_trig_test[2].y!=0||in->sys.pos_tar_trig_test[2].x!=0)		
+    if(in->sys.pos_tar_trig_test[2].z!=19||in->sys.pos_tar_trig_test[2].y!=0.01||in->sys.pos_tar_trig_test[2].x!=0.01)		
 		{
 		in->pos_tar_trig[2].x=in->sys.pos_tar_trig_test[2].x;
 		in->pos_tar_trig[2].y=in->sys.pos_tar_trig_test[2].y;

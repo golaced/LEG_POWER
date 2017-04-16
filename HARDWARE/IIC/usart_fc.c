@@ -456,24 +456,25 @@ void UsartSend_LEG_BUF_BUF(u8 sel)
 {u8 i=0,j,cnt=0;
  char conver[3][4]={0}	;
  u8 buf[40]={0};
- static u8 id_sel[4][3];
+ static u8 id_sel[5]={0};
  
-  for(i=0;i<3;i++){
+
   buf[cnt++]='#';
-  buf[cnt++]=i+1+48;
+  buf[cnt++]=(id_sel[sel])+1+48;
   buf[cnt++]='P';
-	my_itoa(leg[sel].sys.PWM_OUT[i],&conver[i][0],10);	
+	my_itoa(leg[sel].sys.PWM_OUT[id_sel[sel]],&conver[id_sel[sel]][0],10);	
 	//my_itoa(test_leg[i],conver[i],10);	
 	for(j=0;j<4;j++)
-		if(conver[i][j]!=0)
-			buf[cnt++]=conver[i][j];
+		if(conver[id_sel[sel]][j]!=0)
+			buf[cnt++]=conver[id_sel[sel]][j];
 		else
 			break;
 	buf[cnt++]='T';
   buf[cnt++]='1';
   buf[cnt++]=0x0d;
   buf[cnt++]=0x0a;	
-  }
+  if(id_sel[sel]++>=3)
+		id_sel[sel]=0;
 	
 	UsartSend_LEG_BUF(buf,cnt,sel);
 }
