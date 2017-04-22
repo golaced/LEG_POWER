@@ -349,6 +349,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>buf</ItemText>
         </Ww>
+        <Ww>
+          <count>28</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>brain</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
@@ -370,6 +375,11 @@
           <count>3</count>
           <WinNumber>2</WinNumber>
           <ItemText>leg_dt</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>brain</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>

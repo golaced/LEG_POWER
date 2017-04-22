@@ -28,7 +28,7 @@ in->sys.l3=14.3;
 
 in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=0;	
 in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;	
-in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=19;	
+in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=25;	
 	
 in->sys.limit.x=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;	
 in->sys.limit.y=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;	
@@ -51,7 +51,7 @@ case 2:
 in->sys.leg_set_invert=0;
 in->sys.PWM_OFF[0]=2180;	
 in->sys.PWM_OFF[1]=1680;	
-in->sys.PWM_OFF[2]=1300;	
+in->sys.PWM_OFF[2]=1285;	
 in->sys.sita_flag[0]=-1;
 in->sys.sita_flag[1]=-1;	
 in->sys.sita_flag[2]=1;		
@@ -67,9 +67,9 @@ in->sys.sita_flag[2]=1;
 break;
 case 4:	
 in->sys.leg_set_invert=0;	
-in->sys.PWM_OFF[0]=650;	
+in->sys.PWM_OFF[0]=720;	
 in->sys.PWM_OFF[1]=1230;	
-in->sys.PWM_OFF[2]=1480;	
+in->sys.PWM_OFF[2]=1460;	
 in->sys.sita_flag[0]=1;
 in->sys.sita_flag[1]=1;	
 in->sys.sita_flag[2]=1;
@@ -354,7 +354,10 @@ void leg_publish(LEG_STRUCT * in)
 {
 float x_temp,y_temp,z_temp;
 static u16 cnt[5];	
-	
+	if(brain.power_all)
+		in->leg_power=1;
+	if(brain.control_mode)
+		in->control_mode=1;
 	#if USE_BUS_DJ
 	if(in->leg_power==0){	
 		if(cnt[in->sys.id]++>1/0.02){cnt[in->sys.id]=0;
