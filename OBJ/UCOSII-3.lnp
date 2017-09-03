@@ -38,6 +38,7 @@
 "..\obj\dma.o"
 "..\obj\rng.o"
 "..\obj\usart_fc.o"
+"..\obj\rc_mine.o"
 "..\obj\old_x_avoid_n.o"
 "..\obj\rt_nonfinite.o"
 "..\obj\rtgetinf.o"

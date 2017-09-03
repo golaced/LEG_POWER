@@ -33,7 +33,7 @@ int main(void)
   RNG_Init();
 	Delay_ms(100);
 //------------------------Uart Init-------------------------------------
-	Usart1_Init(256000L);			//FC
+	Usart1_Init(256000L);			//FC RC
 	#if EN_DMA_UART1 
 	MYDMA_Config(DMA2_Stream7,DMA_Channel_4,(u32)&USART1->DR,(u32)SendBuff1,SEND_BUF_SIZE1+2,1);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
 	#endif
@@ -50,7 +50,11 @@ int main(void)
 	#if EN_DMA_UART3
 	MYDMA_Config(DMA1_Stream3,DMA_Channel_4,(u32)&USART3->DR,(u32)SendBuff3,SEND_BUF_SIZE3+2,2);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
   #endif
+	#if USE_DJ_CONTROL_BOARD
+	Uart5_Init(115200);
+	#else
   Uart5_Init (38400);     //LEG4
+	#endif
 	Delay_ms(100);
 	
 	Uart6_Init (115200L);     //IDLE
@@ -74,7 +78,11 @@ int main(void)
 #endif		
 	Delay_ms(100);
   LED_Init();								//LED功能初始化
-	
+//	while(1)
+//	{
+//	leg_init(&leg[1],1);
+//  leg_drive(&leg[1],0.01);//leg_dt[0]);
+//	Send_LEG(1);Delay_ms(20);}
 	//---------------初始化UCOSII--------------------------
 	OSInit();  	 				
 	OSTaskCreate(start_task,(void *)0,(OS_STK *)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO );//创建起始任务
@@ -102,12 +110,12 @@ void start_task(void *pdata)
  	//注册线程 	
 	 OSTaskCreate(brain_task,(void *)0,(OS_STK*)&BRAIN_TASK_STK[BRAIN_STK_SIZE-1],BRAIN_TASK_PRIO);//路径规划
 
-	 OSTaskCreate(uart_task,(void *)0,(OS_STK*)&UART_TASK_STK[UART_STK_SIZE-1],UART_TASK_PRIO);
+//	 OSTaskCreate(uart_task,(void *)0,(OS_STK*)&UART_TASK_STK[UART_STK_SIZE-1],UART_TASK_PRIO);
 
-	 OSTaskCreate(leg1_task,(void *)0,(OS_STK*)&LEG1_TASK_STK[LEG_STK_SIZE-1],LEG1_TASK_PRIO);
-	 OSTaskCreate(leg2_task,(void *)0,(OS_STK*)&LEG2_TASK_STK[LEG_STK_SIZE-1],LEG2_TASK_PRIO);
-	 OSTaskCreate(leg3_task,(void *)0,(OS_STK*)&LEG3_TASK_STK[LEG_STK_SIZE-1],LEG3_TASK_PRIO);
-	 OSTaskCreate(leg4_task,(void *)0,(OS_STK*)&LEG4_TASK_STK[LEG_STK_SIZE-1],LEG4_TASK_PRIO);
+//	 OSTaskCreate(leg1_task,(void *)0,(OS_STK*)&LEG1_TASK_STK[LEG_STK_SIZE-1],LEG1_TASK_PRIO);
+//	 OSTaskCreate(leg2_task,(void *)0,(OS_STK*)&LEG2_TASK_STK[LEG_STK_SIZE-1],LEG2_TASK_PRIO);
+//	 OSTaskCreate(leg3_task,(void *)0,(OS_STK*)&LEG3_TASK_STK[LEG_STK_SIZE-1],LEG3_TASK_PRIO);
+//	 OSTaskCreate(leg4_task,(void *)0,(OS_STK*)&LEG4_TASK_STK[LEG_STK_SIZE-1],LEG4_TASK_PRIO);
 
 	//--
  	OSTaskSuspend(START_TASK_PRIO);	//挂起起始任务.

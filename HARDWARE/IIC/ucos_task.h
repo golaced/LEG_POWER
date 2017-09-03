@@ -55,7 +55,7 @@ void leg4_task(void *pdata);
 
 //-----------------------LEG解算线程
 //设置任务堆栈大小
-#define BRAIN_STK_SIZE  					64*4
+#define BRAIN_STK_SIZE  					64*8
 //任务堆栈	
 extern OS_STK BRAIN_TASK_STK[BRAIN_STK_SIZE];
 //任务函数

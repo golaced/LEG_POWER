@@ -4,6 +4,7 @@
 #include "ucos_ii.h"
 #include "os_cpu.h"
 #include "os_cfg.h"
+#include "rc.h"
 
 void Usart1_Init(u32 br_num)//-------UPload_board1
 {
@@ -382,23 +383,44 @@ void Uart6_Init(u32 br_num)//-----odroid
 	USART_Cmd(USART6, ENABLE); 
 }
 
+//original head
+//void UsartSend_LEG1(uint8_t ch)
+//{
+//while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
+//USART_SendData(USART2, ch); 
+//}
+//void UsartSend_LEG2(uint8_t ch)
+//{
+//while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+//USART_SendData(USART3, ch); 
+//}
+//void UsartSend_LEG3(uint8_t ch)
+//{
+//while(USART_GetFlagStatus(UART4, USART_FLAG_TXE) == RESET);
+//USART_SendData(UART4, ch); 
+//}
+//void UsartSend_LEG4(uint8_t ch)
+//{
+//while(USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET);
+//USART_SendData(UART5, ch); 
+//}
 
-void UsartSend_LEG1(uint8_t ch)
+void UsartSend_LEG4(uint8_t ch)
 {
 while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
 USART_SendData(USART2, ch); 
 }
-void UsartSend_LEG2(uint8_t ch)
+void UsartSend_LEG3(uint8_t ch)
 {
 while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
 USART_SendData(USART3, ch); 
 }
-void UsartSend_LEG3(uint8_t ch)
+void UsartSend_LEG2(uint8_t ch)
 {
 while(USART_GetFlagStatus(UART4, USART_FLAG_TXE) == RESET);
 USART_SendData(UART4, ch); 
 }
-void UsartSend_LEG4(uint8_t ch)
+void UsartSend_LEG1(uint8_t ch)
 {
 while(USART_GetFlagStatus(UART5, USART_FLAG_TXE) == RESET);
 USART_SendData(UART5, ch); 
@@ -407,6 +429,9 @@ static void UsartSend_LEG_BUF(u8 *dataToSend , u8 length,u8 sel)
 {
 u16 i;
   for(i=0;i<length;i++)
+	#if USE_DJ_CONTROL_BOARD
+	UsartSend_LEG1(dataToSend[i]);
+	#else
    switch(sel){
 	case 1:		 
 	UsartSend_LEG1(dataToSend[i]);break;
@@ -416,6 +441,7 @@ u16 i;
 	UsartSend_LEG3(dataToSend[i]);break;
 	case 4:		 
 	UsartSend_LEG4(dataToSend[i]);break;}
+	#endif
 		 
 }
 
@@ -454,13 +480,26 @@ char* my_itoa(int value,char *str,int radix)
 u16 test_leg[3]={1234,12,123};
 void UsartSend_LEG_BUF_BUF(u8 sel)
 {u8 i=0,j,cnt=0;
- char conver[3][4]={0}	;
+ char conver[4][5]={0}	;
+ char conver_id[4][5]={0}	;
  u8 buf[40]={0};
  static u8 id_sel[5]={0};
  
-
+if(leg[sel].sys.id&&leg[sel].leg_power){
   buf[cnt++]='#';
+  #if USE_DJ_CONTROL_BOARD
+	my_itoa(leg[sel].sys.pwm_id[id_sel[sel]],&conver_id[id_sel[sel]][0],10);	
+ 	for(j=0;j<4;j++)
+		if(conver_id[id_sel[sel]][j]!=0)
+			buf[cnt++]=conver_id[id_sel[sel]][j];
+		else
+			break;
+  #else
   buf[cnt++]=(id_sel[sel])+1+48;
+  #endif
+  #if USE_DJ_CONTROL_BOARD
+  buf[cnt++]=' '; 
+  #endif
   buf[cnt++]='P';
 	my_itoa(leg[sel].sys.PWM_OUT[id_sel[sel]],&conver[id_sel[sel]][0],10);	
 	//my_itoa(test_leg[i],conver[i],10);	
@@ -469,14 +508,57 @@ void UsartSend_LEG_BUF_BUF(u8 sel)
 			buf[cnt++]=conver[id_sel[sel]][j];
 		else
 			break;
+  #if USE_DJ_CONTROL_BOARD
+  buf[cnt++]=' '; 
+  #endif		
 	buf[cnt++]='T';
   buf[cnt++]='1';
   buf[cnt++]=0x0d;
   buf[cnt++]=0x0a;	
-  if(id_sel[sel]++>=3)
+
+  if(id_sel[sel]++>=4)	
 		id_sel[sel]=0;
 	
+	//UsartSend_LEG_BUF(buf,cnt,sel);
+}
+}
+
+void UsartSend_LEG_BUF_BUF_2(u8 sel)
+{u8 i=0,j,l,cnt=0;
+ char conver[4][5]={0}	;
+ char conver_id[4][5]={0}	;
+ u8 buf[15*5]={0};
+ static u8 id_sel[5]={0};
+ 
+if(leg[sel].sys.id&&leg[sel].leg_power){
+	for(i=0;i<4;i++){
+  buf[cnt++]='#';
+	my_itoa(leg[sel].sys.pwm_id[i],&conver_id[i][0],10);	
+ 	for(j=0;j<4;j++)
+		if(conver_id[i][j]!=0)
+			buf[cnt++]=conver_id[i][j];
+		else
+			break;
+
+  buf[cnt++]=' '; 
+
+  buf[cnt++]='P';
+	my_itoa(leg[sel].sys.PWM_OUT[i],&conver[i][0],10);	
+	for(j=0;j<4;j++)
+		if(conver[i][j]!=0)
+			buf[cnt++]=conver[i][j];
+		else
+			break;
+  buf[cnt++]=' '; 
+	buf[cnt++]='T';
+  buf[cnt++]='1';
+  buf[cnt++]=0x0d;
+  buf[cnt++]=0x0a;	
+  buf[cnt++]=0x00;
+  buf[cnt++]=0x00;
+ }
 	UsartSend_LEG_BUF(buf,cnt,sel);
+}
 }
 //#1PULK 
 void LEG_POWER_OFF(u8 sel)
@@ -595,8 +677,9 @@ void Send_LEG(u8 sel)
 	
 	UsartSend_LEG_BUF(data_to_send, _cnt,sel);
 	#else
-	if(leg[sel].leg_power)
-	UsartSend_LEG_BUF_BUF(sel);
+	//if(leg[sel].leg_power)
+	//UsartSend_LEG_BUF_BUF(sel);
+	UsartSend_LEG_BUF_BUF_2(sel);
 	#endif
 }
 
@@ -633,6 +716,26 @@ void Data_LEG_CMD(u8 *data_buf,u8 num,u8 sel)
     
 	
 	}		
+}
+
+void Data_Receive_Anl1_RC(u8 *data_buf,u8 num)
+{
+	vs16 rc_value_temp;
+	u8 sum = 0;
+	u8 i;
+	for( i=0;i<(num-1);i++)
+		sum += *(data_buf+i);
+	if(!(sum==*(data_buf+num-1)))		return;		//ÅÐ¶Ïsum
+	if(!(*(data_buf)==0xAA && *(data_buf+1)==0xAF))		return;		//ÅÐ¶ÏÖ¡Í·
+
+  if(*(data_buf+2)==0x66)//RC_GET1
+  {
+		for(i=0;i<32;i++)
+		NRF24L01_RXDATA[i]=*(data_buf+i+4);
+		
+	  NRF_DataAnl();
+  
+	}
 }
 
 u8 TxBuffer1[256];
@@ -695,6 +798,7 @@ void USART1_IRQHandler(void)
 			RxState1 = 0;
 			RxBuffer1[4+_data_cnt1]=com_data;
 			Data_LEG_CMD(RxBuffer1,_data_cnt1+5,1);
+			Data_Receive_Anl1_RC(RxBuffer1,_data_cnt1+5);
 		}
 		else
 			RxState1 = 0;

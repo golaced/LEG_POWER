@@ -24,10 +24,11 @@ typedef struct
 	float l1;
 	float l2;
 	float l3;
-	u16 PWM_OFF[3];
+	u8 pwm_id[4];
+	u16 PWM_OFF[4];
 	u16 PWM_INIT[3];
 	u16 PWM_MIN[3],PWM_MAX[3];
-	float PWM_OUT[3];
+	float PWM_OUT[4];
 	float PWM_PER_DEGREE;
 	u8 use_ground_check;
 	u8 leg_set_invert,leg_ground_cnt;
@@ -70,14 +71,15 @@ typedef struct
 	u8 err,rst;
 	float leg_t,tar_spd[3];
 	float leg_h;
-	POS off_leg[5],center_off;
+	float desire_time;
+	POS off_leg[5],center_off,center_off1,center_scale;
 }BRAIN_SYS;
 
 typedef struct 
 { u8 leg_connect,control_mode,power_all;
 	u8 force_stop,loss_center,ground_leg_num;	
 	u8 leg_move[5];	
-	float att[3],now_spd[3],now_acc[3],tar_w,spd,spd_yaw;
+	float att[3],now_spd[3],now_acc[3],tar_w,spd,spd_d,spd_yaw;
 
 	POS center;
 	double leg_ground_center[3];
@@ -85,7 +87,7 @@ typedef struct
 	
 	BRAIN_SYS sys;
 }BRAIN_STRUCT;
-
+extern u8 last_move_leg;
 extern LEG_STRUCT leg[5];
 extern BRAIN_STRUCT brain;
 
@@ -107,6 +109,7 @@ void find_closet_point(u8*min_id,float x, float y,float x1,float y1,float x2,flo
 void find_leg_need_move(float spd_tar[3],float str[4],float end[4]) ;
 void leg_task(float dt);
 void cal_deng_from_spd(BRAIN_STRUCT *in);
+extern float center_control_out[2];
 #define Xr 0
 #define Yr 1
 #define Zr 2

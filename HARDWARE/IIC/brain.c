@@ -12,8 +12,8 @@
  
 void barin_init(BRAIN_STRUCT *in)
 {
-float W=8*2;//cm	
-float L=25;
+float W=5.7*2;//cm	
+float L=16.7;
 in->sys.leg_local[1].x=W/2;
 in->sys.leg_local[1].y=L/2;
 in->sys.leg_local[1].z=0;	
@@ -30,32 +30,35 @@ in->sys.leg_local[4].x=-W/2;
 in->sys.leg_local[4].y=-L/2;
 in->sys.leg_local[4].z=0;	
 
-in->leg_move_range[Xr]=1.5;//cm	
-in->leg_move_range[Yr]=1.5;//cm		
+in->leg_move_range[Xr]=3;//cm	
+in->leg_move_range[Yr]=3;//cm		
 	
-in->sys.k_spd_to_range=5;
-in->sys.center_off.x=0.8;
-in->sys.center_off.y=1.5;
+in->sys.k_spd_to_range=0.36;
+in->sys.center_off.x=0;
+in->sys.center_off.y=0;
+in->sys.center_off1.x=0;
+in->sys.center_off1.y=0;
+
 
 in->sys.leg_t=0.5;
-in->sys.leg_h=4;
-
+in->sys.leg_h=3;
+in->sys.desire_time=0.3588;
 leg[1].sys.id=1;
 leg[2].sys.id=2;
 leg[3].sys.id=3;
 leg[4].sys.id=4;
 leg[1].pos_tar[2].x=0;	
 leg[1].pos_tar[2].y=0;	
-leg[1].pos_tar[2].z=19;	
+leg[1].pos_tar[2].z=leg[1].sys.init_end_pos.z;	
 leg[2].pos_tar[2].x=0;	
 leg[2].pos_tar[2].y=0;	
-leg[2].pos_tar[2].z=19;	
+leg[2].pos_tar[2].z=leg[2].sys.init_end_pos.z;	
 leg[3].pos_tar[2].x=0;	
 leg[3].pos_tar[2].y=0;	
-leg[3].pos_tar[2].z=19;	
+leg[3].pos_tar[2].z=leg[3].sys.init_end_pos.z;	
 leg[4].pos_tar[2].x=0;	
 leg[4].pos_tar[2].y=0;	
-leg[4].pos_tar[2].z=19;	
+leg[4].pos_tar[2].z=leg[4].sys.init_end_pos.z;	
 
 }	
 
@@ -275,13 +278,13 @@ void check_leg_need_move(BRAIN_STRUCT *in,float spd_body[3],float spd_tar[3],flo
  for(i=1;i<5;i++){
 	leg[i].need_move=0;
 	//check out range
-	 if((leg[i].pos_now[2].x+dt*spd_tar[Xr])>in->leg_move_range[Xr]&&spd_tar[Xr]<0)
+	 if((leg[i].pos_now[2].x+dt*spd_tar[Xr])>(in->sys.center_off.x+in->leg_move_range[Xr])&&spd_tar[Xr]<=0)
 		 leg[i].need_move+=1;
-	 else if((leg[i].pos_now[2].x+dt*spd_tar[Xr])<-in->leg_move_range[Xr]&&spd_tar[Xr]>0)
+	 else if((leg[i].pos_now[2].x+dt*spd_tar[Xr])<(in->sys.center_off.x-in->leg_move_range[Xr])&&spd_tar[Xr]>=0)
 		 leg[i].need_move+=1;
-	 else if((leg[i].pos_now[2].y+dt*spd_tar[Yr])>in->leg_move_range[Yr]&&spd_tar[Yr]<0)
+	 else if((leg[i].pos_now[2].y+dt*spd_tar[Yr])>(in->sys.center_off.y+in->leg_move_range[Yr])&&spd_tar[Yr]<=0)
 		 leg[i].need_move+=1;
-	 else if((leg[i].pos_now[2].y+dt*spd_tar[Yr])<-in->leg_move_range[Yr]&&spd_tar[Yr]>0)
+	 else if((leg[i].pos_now[2].y+dt*spd_tar[Yr])<(in->sys.center_off.y-in->leg_move_range[Yr])&&spd_tar[Yr]>=0)
 		 leg[i].need_move+=1;
  } 
  u8 loss_center_temp=0;
@@ -358,49 +361,54 @@ switch(in->ground_leg_num)
 }
 
 float center_control_out[2];
-float k_center_c[2]={0,0};
+float k_center_c[2]={2,0};
+float flt=0.2;
 void center_control(void)//PID
 {
   
 	float ero[2];
-	 ero[Xr]=brain.center.x-brain.leg_ground_center[Xr];
-   ero[Yr]=brain.center.x-brain.leg_ground_center[Yr];
-	
-   center_control_out[Xr]=-ero[Xr]*k_center_c[Xr];
-	 center_control_out[Yr]=-ero[Yr]*k_center_c[Yr];
+//	 ero[Xr]=brain.center.x-brain.leg_ground_center[Xr];
+//   ero[Yr]=brain.center.y-brain.leg_ground_center[Yr];
+	 if(last_move_leg==1||last_move_leg==2)
+		ero[Xr]=1; 
+	 else if(last_move_leg==4||last_move_leg==3)
+		ero[Xr]=-1; 
+	 else
+		ero[Xr]=0;  
+   center_control_out[Xr]=flt*ero[Xr]*k_center_c[Xr]+(1-flt)*center_control_out[Xr];
+	 center_control_out[Yr]=flt*ero[Yr]*k_center_c[Yr]+(1-flt)*center_control_out[Yr];
 }
 
 void leg_tar_est(BRAIN_STRUCT *in,LEG_STRUCT *leg,float spd_body[3],float spd_tar[3],float w_tar,u8 need_move,float dt)
 {
+u8 id=leg->sys.id;
 float tar_yaw,spd;
-		tar_yaw=fast_atan2(spd_tar[Xr],spd_tar[Yr])*57.3;
-	  spd=sqrt(pow(spd_tar[0],2)+pow(spd_tar[1],2));
+		tar_yaw=in->spd_yaw;//(spd_tar[Xr],spd_tar[Yr])*57.3;
+	  spd=in->spd;//sqrt(pow(spd_tar[0],2)+pow(spd_tar[1],2));
 float tar_x,tar_y,tar_z;	
 switch(need_move){
 	case 1 :
 		tar_x=LIMIT(sin(tar_yaw*0.0173)*LIMIT(spd*in->sys.k_spd_to_range,-20,20),-in->leg_move_range[Xr]*0.98,in->leg_move_range[Xr]*0.98);
 	  tar_y=LIMIT(cos(tar_yaw*0.0173)*LIMIT(spd*in->sys.k_spd_to_range,-20,20),-in->leg_move_range[Yr]*0.98,in->leg_move_range[Yr]*0.98);
-	  leg->pos_tar[2].x=tar_x+(float)RNG_Get_RandomRange(-1000,1000)/10000.;
-	  if(leg->sys.id==2)
-	  leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/10000.+0.5;
-		else
-		leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/10000.;	
-		  in->sys.pos_tar_trig[leg->sys.id].x=leg->pos_tar[2].x;
-		  in->sys.pos_tar_trig[leg->sys.id].y=leg->pos_tar[2].y;
-		  in->sys.pos_tar_trig[leg->sys.id].x=leg->pos_tar[2].z;
+	  leg->pos_tar_trig[2].x=tar_x+(float)RNG_Get_RandomRange(-1000,1000)/100000.+in->sys.center_off.x;
+	  leg->pos_tar_trig[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/100000.+in->sys.center_off.y;
+	  leg->pos_tar_trig[2].z=leg->sys.init_end_pos.z;
+		  in->sys.pos_tar_trig[leg->sys.id].x=leg->pos_tar_trig[2].x;
+		  in->sys.pos_tar_trig[leg->sys.id].y=leg->pos_tar_trig[2].y;
+		  in->sys.pos_tar_trig[leg->sys.id].z=leg->pos_tar_trig[2].z;
 		  leg->sys.leg_move_pass_cnt=0;
 	break;
 	case 2 :
 		tar_x=LIMIT(sin(tar_yaw*0.0173)*LIMIT(spd*in->sys.k_spd_to_range,-20,20),-in->leg_move_range[Xr]*0.98,in->leg_move_range[Xr]*0.98);
 	  tar_y=LIMIT(cos(tar_yaw*0.0173)*LIMIT(spd*in->sys.k_spd_to_range,-20,20),-in->leg_move_range[Yr]*0.98,in->leg_move_range[Yr]*0.98);
-	  leg->pos_tar[2].x=tar_x+(float)RNG_Get_RandomRange(-1000,1000)/10000.;
+	  leg->pos_tar[2].x=tar_x+(float)RNG_Get_RandomRange(-1000,1000)/100000.;
 	   if(leg->sys.id==2)
-	  leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/10000.+0.5;
+	  leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/100000.+0.5;
 		else
-		leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/10000.;	
+		leg->pos_tar[2].y=tar_y+(float)RNG_Get_RandomRange(-1000,1000)/100000.;	
 		  in->sys.pos_tar_trig[leg->sys.id].x=leg->pos_tar[2].x;
 		  in->sys.pos_tar_trig[leg->sys.id].y=leg->pos_tar[2].y;
-		  in->sys.pos_tar_trig[leg->sys.id].x=leg->pos_tar[2].z;
+		  in->sys.pos_tar_trig[leg->sys.id].z=leg->pos_tar[2].z;
 		leg->sys.leg_move_pass_cnt=0;
 	break;
 }
@@ -412,9 +420,11 @@ u8 trig_list_ero[5]= {0,2,3,4,1};
 u8 trig_list_ero2[5]={0,0,0,0,0};
 u8 test112=15;
 float move_off[2]={0};
+u16 set11=30;
+ u8 last_move_leg;	
 void get_leg_tar_trig(BRAIN_STRUCT *in,float spd_body[3],float spd_tar[3],float w_tar,float dt)//mmmm
 {
-static u8 last_move_leg;	
+
 u8 i,cnt,id,id_star,leg_move_pass_cnt;
 u8 leg_out_cnt[3]={0};	
 u8 out_range_id[4];
@@ -499,21 +509,76 @@ static u8 cnt_delay;
 
 static u8 cnt_all_ground=0;
 static u8 state,state_cnt=0;
-
+static u16 cnt1;
 switch(state)
 {
 case 0:
 if(brain.ground_leg_num>3&&leg_out_cnt[0]>0&&leg[1].need_move>0)
-{state=++state_cnt;in->force_stop=1;last_move_leg=1;}
+{state++;in->force_stop=1;last_move_leg=1;cnt1=0;}
 break;
 case 1:
-leg_tar_est(in, &leg[1],spd_body,spd_tar, w_tar, 1, dt);state=++state_cnt;
+center_control();	
+if(cnt1++>set11){cnt1=0;state++;}
 break;
 case 2:
+//添加要移动前倾斜
+leg_tar_est(in, &leg[1],spd_body,spd_tar, w_tar, 1, dt);state++;
+break;
+case 3:
 if(brain.ground_leg_num==4&&cnt_all_ground++>test112)
-{state=++state_cnt;cnt_all_ground=0;in->force_stop=0;}
+{state++;cnt_all_ground=0;in->force_stop=0;}
 break;	
 
+case 4:
+if(brain.ground_leg_num>3&&leg_out_cnt[0]>0&&leg[4].need_move>0)
+{state++;in->force_stop=1;last_move_leg=4;}
+break;
+case 5:
+center_control();	
+if(cnt1++>set11){cnt1=0;state++;}
+break;
+case 6:
+//添加要移动前倾斜
+leg_tar_est(in, &leg[4],spd_body,spd_tar, w_tar, 1, dt);state++;
+break;
+case 7:
+if(brain.ground_leg_num==4&&cnt_all_ground++>test112)
+{state++;cnt_all_ground=0;in->force_stop=0;}
+break;	
+
+case 8:
+if(brain.ground_leg_num>3&&leg_out_cnt[0]>0&&leg[3].need_move>0)
+{state++;in->force_stop=1;last_move_leg=3;}
+break;
+case 9:
+center_control();	
+if(cnt1++>set11){cnt1=0;state++;}
+break;
+case 10:
+//添加要移动前倾斜
+leg_tar_est(in, &leg[3],spd_body,spd_tar, w_tar, 1, dt);state++;
+break;
+case 11:
+if(brain.ground_leg_num==4&&cnt_all_ground++>test112)
+{state++;cnt_all_ground=0;in->force_stop=0;}
+break;	
+
+case 12:
+if(brain.ground_leg_num>3&&leg_out_cnt[0]>0&&leg[2].need_move>0)
+{state++;in->force_stop=1;last_move_leg=2;}
+break;
+case 13:
+center_control();	
+if(cnt1++>set11){cnt1=0;state++;}
+break;
+case 14:
+//添加要移动前倾斜
+leg_tar_est(in, &leg[2],spd_body,spd_tar, w_tar, 1, dt);state++;
+break;
+case 15:
+if(brain.ground_leg_num==4&&cnt_all_ground++>test112)
+{state=0;cnt_all_ground=0;in->force_stop=0;}
+break;	
 	
 }
  
@@ -533,8 +598,8 @@ float yaw=in->spd_yaw;
 	in->sys.tar_spd[Yr]=spdy=cos(yaw*0.0173)*spd;
 		for(i=1;i<5;i++){
 		if(leg[i].control_mode||in->control_mode){	
-		leg[i].deng[Xr]=spdx+center_control_out[Xr];
-		leg[i].deng[Yr]=spdy+center_control_out[Yr];	}
+		leg[i].deng[Xr]=spdx+0*center_control_out[Xr];
+		leg[i].deng[Yr]=spdy+0*center_control_out[Yr];	}
 		}
 }
 

@@ -53,6 +53,7 @@
 #define SONAR_USE_UART 
 
 #define USE_BUS_DJ 1
+#define USE_DJ_CONTROL_BOARD 1
 //==============================================
 #define OFFSET_AV_NUM 	50					//校准偏移量时的平均次数。
 #define FILTER_NUM 			10					//滑动平均滤波数值个数

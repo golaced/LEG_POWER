@@ -16,79 +16,101 @@ void READ_LEG_ID(LEG_STRUCT *in)
 
 in->sys.id=0;
 }
-
+float k_z=0.95;
+u16 SET_PWM3_OFF=0;
 void leg_init( LEG_STRUCT *in,u8 id)
 {
 	
 in->sys.id=id;
 in->sys.init_mode=0;	
-in->sys.l1=4.5;
-in->sys.l2=14.5;
-in->sys.l3=14.3;	
+in->sys.l1=4.9;
+in->sys.l2=6.3;
+in->sys.l3=7.8;	
 
 in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=0;	
-in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;	
-in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=25;	
-	
-in->sys.limit.x=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;	
-in->sys.limit.y=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;	
-in->sys.limit.z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98;	
+in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;		
+in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.8*k_z;	
+
+in->sys.limit.x=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
+in->sys.limit.y=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
+in->sys.limit.z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.88;	
 	
 in->sys.limit_min.z=(in->sys.l3-(in->sys.l2-in->sys.l1))*1.05;
 
-in->sys.desire_time=0.35;
+in->sys.desire_time=0.4;
 switch(in->sys.id){
 case 1:	
-in->sys.leg_set_invert=0;
-in->sys.PWM_OFF[0]=2222;//570;	
-in->sys.PWM_OFF[1]=2100;//1870;	
-in->sys.PWM_OFF[2]=1610;//1600		
+in->sys.leg_set_invert=1;
+in->sys.PWM_OFF[0]=1850;//570;	
+in->sys.PWM_OFF[1]=620;//1870;	
+in->sys.PWM_OFF[2]=1400+SET_PWM3_OFF;//1600		
+in->sys.PWM_OFF[3]=1380;
 in->sys.sita_flag[0]=-1;
-in->sys.sita_flag[1]=-1;	
+in->sys.sita_flag[1]=1;	
 in->sys.sita_flag[2]=1;
+in->sys.pwm_id[0]=9;
+in->sys.pwm_id[1]=8;
+in->sys.pwm_id[2]=10;
+in->sys.pwm_id[3]=11;
 break;
 case 2:	
 in->sys.leg_set_invert=0;
-in->sys.PWM_OFF[0]=2180;	
-in->sys.PWM_OFF[1]=1680;	
-in->sys.PWM_OFF[2]=1285;	
-in->sys.sita_flag[0]=-1;
+in->sys.PWM_OFF[0]=700;	
+in->sys.PWM_OFF[1]=1960;	
+in->sys.PWM_OFF[2]=1500+SET_PWM3_OFF;	
+in->sys.PWM_OFF[3]=1380;
+in->sys.sita_flag[0]=1;
 in->sys.sita_flag[1]=-1;	
-in->sys.sita_flag[2]=1;		
+in->sys.sita_flag[2]=1;	
+in->sys.pwm_id[0]=15;
+in->sys.pwm_id[1]=14;
+in->sys.pwm_id[2]=13;
+in->sys.pwm_id[3]=12;
 break;
 case 3:	
-in->sys.leg_set_invert=0;	
-in->sys.PWM_OFF[0]=825;	
-in->sys.PWM_OFF[1]=1200;	
-in->sys.PWM_OFF[2]=1490;	
+in->sys.leg_set_invert=1;	
+in->sys.PWM_OFF[0]=1060;	
+in->sys.PWM_OFF[1]=1540;	
+in->sys.PWM_OFF[2]=1480-SET_PWM3_OFF;	
+in->sys.PWM_OFF[3]=1425;
 in->sys.sita_flag[0]=1;
-in->sys.sita_flag[1]=1;	
+in->sys.sita_flag[1]=-1;	
 in->sys.sita_flag[2]=1;
+in->sys.pwm_id[0]=6;
+in->sys.pwm_id[1]=7;
+in->sys.pwm_id[2]=5;
+in->sys.pwm_id[3]=4;
 break;
 case 4:	
 in->sys.leg_set_invert=0;	
-in->sys.PWM_OFF[0]=720;	
-in->sys.PWM_OFF[1]=1230;	
-in->sys.PWM_OFF[2]=1460;	
-in->sys.sita_flag[0]=1;
+in->sys.PWM_OFF[0]=1530;	
+in->sys.PWM_OFF[1]=660;	
+in->sys.PWM_OFF[2]=1400-SET_PWM3_OFF;	
+in->sys.PWM_OFF[3]=1388;
+in->sys.sita_flag[0]=-1;
 in->sys.sita_flag[1]=1;	
 in->sys.sita_flag[2]=1;
+in->sys.pwm_id[0]=1;
+in->sys.pwm_id[1]=0;
+in->sys.pwm_id[2]=2;
+in->sys.pwm_id[3]=3;
 break;
 }
 
-in->sys.PWM_MIN[0]=500;	
-in->sys.PWM_MIN[1]=500;	
-in->sys.PWM_MIN[2]=500;	
+int DL=88;
+in->sys.PWM_MIN[0]=500+DL;	
+in->sys.PWM_MIN[1]=500+DL;
+in->sys.PWM_MIN[2]=500+DL;
 
-in->sys.PWM_MAX[0]=2500;	
-in->sys.PWM_MAX[1]=2500;	
-in->sys.PWM_MAX[2]=2500;	
+in->sys.PWM_MAX[0]=2500-DL;
+in->sys.PWM_MAX[1]=2500-DL;	
+in->sys.PWM_MAX[2]=2500-DL;	
 
-in->sys.PWM_PER_DEGREE=7.8;//9.1;		
+in->sys.PWM_PER_DEGREE=9.34;//7.8;//9.1;		
 
 in->sys.en_pwm_out=1;
 
-in->sys.leg_up_high=6.6;
+in->sys.leg_up_high=3;
 
 in->leg_ground=1;
 
@@ -131,7 +153,7 @@ float z=LIMIT(z_i,-in->sys.limit.z,in->sys.limit.z);
 	temp=(l2*l2+l4*l4-l3*l3)/(2*l2*l4);
 	in->sita[0]=180-acos(y/l4)*RtA-acos(LIMIT(temp,-1,1))*RtA;//*cos(in->sita[2]*AtR);
 	//recal_pos 
-	if(out){
+	if(out){//作为输出才重新计算当前角度对应的逆运算末端位置
 	in->pos_now[0].x=l1*sin(in->sita[2]*AtR);in->pos_now[0].y=0;in->pos_now[0].z=cos(in->sita[2]*AtR)*l1;
 	float h1=sin(in->sita[0]*AtR)*l2;
 	float h2=sin((180-in->sita[0]-in->sita[1])*AtR)*l3;
@@ -139,6 +161,13 @@ float z=LIMIT(z_i,-in->sys.limit.z,in->sys.limit.z);
 	float d2=cos(in->sita[2]*AtR)*l3;
 	in->pos_now[1].x=(l1+h1)*sin(in->sita[2]*AtR);in->pos_now[1].y=-cos(in->sita[0]*AtR)*d1;in->pos_now[1].z=cos(in->sita[2]*AtR)*(l1+h1);
 	in->pos_now[2].x=(l1+h1+h2)*sin(in->sita[2]*AtR);in->pos_now[2].y=-cos(in->sita[0]*AtR)*d1+cos((180-in->sita[0]-in->sita[1])*AtR)*d2;in->pos_now[2].z=cos(in->sita[2]*AtR)*(l1+h1+h2);	
+  if(in->sys.leg_set_invert)
+		for(u8 i=0;i<3;i++)
+	   {
+		 in->pos_now[i].x*=-1;
+		 in->pos_now[i].y*=-1;
+		 }
+	
   if(isnan(in->sita[1])||isnan(in->sita[0]))
 		ero=1;
   }
@@ -170,7 +199,7 @@ void cal_pwm_from_sita(LEG_STRUCT * in)
 	+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
 	for(i=1;i<3;i++)
 	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]+in->sys.sita_flag[i]*in->sita[i]*in->sys.PWM_PER_DEGREE,in->sys.PWM_MIN[i],in->sys.PWM_MAX[i]);
-	
+	in->sys.PWM_OUT[3]=LIMIT(in->sys.PWM_OFF[3],500,2500);
 }	
 
 float curve_cal(float c0,float c3,float c4,float c5,float c6,float t)
@@ -282,7 +311,7 @@ static float time;
 switch(state)
 {
 case 0:
-if(*en){
+if(*en){//由着地点规划当前轨迹
 cal_curve_from_pos(in,desire_time);
 state=1;	
 ground_mask=time=0;	
@@ -290,7 +319,7 @@ ground_mask=time=0;
    in->leg_ground=0;
 }
 break;
-case 1:
+case 1://有时间和轨迹计算每一时间的曲线坐标
 if(in->leg_ground&&ground_mask++>100)	
 state=*en=0;
 if(*en){
@@ -304,8 +333,7 @@ else
 
 break;
 
-}
-	
+}	
 }
 
 
@@ -316,15 +344,13 @@ static float time;
 	if(!in->sys.use_ground_check)
    in->leg_ground=1;	
 //判断是否重合等
-if(!in->err&&in->leg_ground){
-in->pos_tar[2].x+=-spdx*dt;
-in->pos_tar[2].y+=-spdy*dt;
-	
-in->pos_tar[2].x=LIMIT(in->pos_tar[2].x,-in->sys.limit.x,in->sys.limit.x);
-in->pos_tar[2].y=LIMIT(in->pos_tar[2].y,-in->sys.limit.x,in->sys.limit.y);
-}
-
-
+	if(!in->err&&in->leg_ground){
+	in->pos_tar[2].x+=-spdx*dt;
+	in->pos_tar[2].y+=-spdy*dt;
+		
+	in->pos_tar[2].x=LIMIT(in->pos_tar[2].x,-in->sys.limit.x,in->sys.limit.x);
+	in->pos_tar[2].y=LIMIT(in->pos_tar[2].y,-in->sys.limit.x,in->sys.limit.y);
+	}
 //in->pos_tar[2].z=cal_curve[Zs];
 }	
 
@@ -337,12 +363,11 @@ static float time;
 //判断是否重合等
  if(!in->sys.use_ground_check)
  {
-   if(in->pos_now[2].z>=in->sys.init_end_pos.z*0.98)
+   if(in->pos_now[2].z>=in->sys.init_end_pos.z*0.986)
      in->leg_ground=1;
 	 else
      in->leg_ground=0;
  }
- 
 }	
 
 
@@ -354,6 +379,19 @@ void leg_publish(LEG_STRUCT * in)
 {
 float x_temp,y_temp,z_temp;
 static u16 cnt[5];	
+	if(in->sys.id==1||in->sys.id==3){
+	in->sys.off_all.x=brain.sys.center_off.x+center_control_out[Xr];
+	in->sys.off_all.y=brain.sys.center_off.y+center_control_out[Yr];
+	in->sys.off_all.z=brain.sys.center_off.z;
+	}
+	else
+	{
+	in->sys.off_all.x=brain.sys.center_off1.x+center_control_out[Xr];
+	in->sys.off_all.y=brain.sys.center_off1.y+center_control_out[Yr];
+	in->sys.off_all.z=brain.sys.center_off1.z;
+	}
+	in->sys.leg_up_high=brain.sys.leg_h;
+	in->sys.desire_time=brain.sys.desire_time;
 	if(brain.power_all)
 		in->leg_power=1;
 	if(brain.control_mode)
@@ -367,7 +405,7 @@ static u16 cnt[5];
   if(in->control_mode||force_test_mode)
 	{	
 	
-  if(in->sys.leg_set_invert)
+  if(in->sys.leg_set_invert)//<---------------------use normal mode 
 	{	
 	x_temp=-(in->pos_tar[2].x);
 	y_temp=-(in->pos_tar[2].y);
@@ -377,15 +415,17 @@ static u16 cnt[5];
 	y_temp=in->pos_tar[2].y;
 	z_temp=in->pos_tar[2].z;
 	}		
+	//由坐标计算角度
 	cal_sita_from_pos(in,x_temp+in->sys.off_local.x+in->sys.off_all.x,y_temp+in->sys.off_local.y+in->sys.off_all.y,
 	z_temp+in->sys.off_local.z+in->sys.off_all.z,1);
-	 if(line_test[3]){
+	 if(line_test[3]){//强制角度测试
 	in->sita[0]=sita_test[0];in->sita[1]=sita_test[1];in->sita[2]=sita_test[2];}
-  cal_pwm_from_sita(in);		
-	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);	
+  cal_pwm_from_sita(in);//计算PWM由角度	
+	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);//从角度反推位置	
 	}
-	else{
-		in->pos_tar[2].x=0;in->pos_tar[2].y=0;in->pos_tar[2].z=19;in->leg_ground=1;
+	
+	else{//----------------------not on control mode 强制测试摸个位置
+		in->pos_tar[2].x=0;in->pos_tar[2].y=0;in->pos_tar[2].z=in->sys.init_end_pos.z;in->leg_ground=1;
 		 if(in->sys.leg_set_invert)
 	{	
 	x_temp=-(in->sys.init_end_pos.x-in->sys.off_all.x);
@@ -396,12 +436,13 @@ static u16 cnt[5];
 	y_temp=in->sys.init_end_pos.y+in->sys.off_all.y;
 	z_temp=in->sys.init_end_pos.z+in->sys.off_all.z;
 	}		
+	//由坐标计算角度
 	cal_sita_from_pos(in,x_temp+in->sys.off_local.x+in->sys.off_all.x,y_temp+in->sys.off_local.y+in->sys.off_all.y,
 	z_temp+in->sys.off_local.z+in->sys.off_all.z,1);
-	 if(line_test[3]){
+	 if(line_test[3]){//强制角度测试
 	in->sita[0]=sita_test[0];in->sita[1]=sita_test[1];in->sita[2]=sita_test[2];}
-  cal_pwm_from_sita(in);		
-	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);	
+  cal_pwm_from_sita(in);//计算PWM由角度	
+	cal_sita_from_pos(in,x_temp,y_temp,z_temp,0);//从角度反推位置	
 	}
  
 	
@@ -410,20 +451,23 @@ static u16 cnt[5];
 
 
 void leg_drive(LEG_STRUCT * in,float dt)
-{    
-    if(in->sys.pos_tar_trig_test[2].z!=19||in->sys.pos_tar_trig_test[2].y!=0.01||in->sys.pos_tar_trig_test[2].x!=0.01)		
-		{
-		in->pos_tar_trig[2].x=in->sys.pos_tar_trig_test[2].x;
-		in->pos_tar_trig[2].y=in->sys.pos_tar_trig_test[2].y;
-		in->pos_tar_trig[2].z=in->sys.pos_tar_trig_test[2].z;
-		}
+{   u8 id=in->sys.id; 
+//    if(in->sys.pos_tar_trig_test[2].z!=in->sys.init_end_pos.z||in->sys.pos_tar_trig_test[2].y!=0.00||in->sys.pos_tar_trig_test[2].x!=0.00)		
+//		{
+//		in->pos_tar_trig[2].x=in->sys.pos_tar_trig_test[2].x;
+//		in->pos_tar_trig[2].y=in->sys.pos_tar_trig_test[2].y;
+//		in->pos_tar_trig[2].z=in->sys.pos_tar_trig_test[2].z;
+//		}
 		if((in->pos_tar_trig[2].x!=in->sys.pos_tar_reg[0]||
 			 in->pos_tar_trig[2].y!=in->sys.pos_tar_reg[1]||
 			 in->pos_tar_trig[2].z!=in->sys.pos_tar_reg[2])&&!in->curve_trig)	
-			{in->curve_trig=1;}
-
+			{in->curve_trig=1;}//trig 使能
+    //跨
 		if(in->curve_trig&&in->sys.desire_time>0)
 		leg_follow_curve(in,in->sys.desire_time,& in->curve_trig,dt);
+		//着地
+		leg_ground_check(in);
+		//蹬
 		if(!in->curve_trig&&(fabs(in->deng[1])>0||fabs(in->deng[0])>0))
 		cal_pos_tar_for_deng(in,in->deng[0],in->deng[1],dt);	
 					
