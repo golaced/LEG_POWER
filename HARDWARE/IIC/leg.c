@@ -13,31 +13,21 @@ BRAIN_STRUCT brain;
 //%          O                                     OO
 void READ_LEG_ID(LEG_STRUCT *in)
 {
-
 in->sys.id=0;
 }
-float k_z=0.95;
+float off_local[2]={0.86,0};	
+float k_z=0.92;
 u16 SET_PWM3_OFF=0;
 void leg_init( LEG_STRUCT *in,u8 id)
 {
 	
 in->sys.id=id;
+in->leg_ground=1;
 in->sys.init_mode=0;	
 in->sys.l1=4.9;
 in->sys.l2=6.3;
 in->sys.l3=7.8;	
 
-in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=0;	
-in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=0;		
-in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.8*k_z;	
-
-in->sys.limit.x=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
-in->sys.limit.y=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
-in->sys.limit.z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.88;	
-	
-in->sys.limit_min.z=(in->sys.l3-(in->sys.l2-in->sys.l1))*1.05;
-
-in->sys.desire_time=0.4;
 switch(in->sys.id){
 case 1:	
 in->sys.leg_set_invert=1;
@@ -96,6 +86,23 @@ in->sys.pwm_id[2]=2;
 in->sys.pwm_id[3]=3;
 break;
 }
+int flag[2]={1,1};
+if(in->sys.id==3||in->sys.id==4)
+	flag[0]=-1;
+if(in->sys.id==2||in->sys.id==4)
+	flag[1]=-1;
+in->sys.init_end_pos.x=in->pos_tar[2].x=in->sys.pos_tar_trig_test[2].x=off_local[0]*flag[0];	
+in->sys.init_end_pos.y=in->pos_tar[2].y=in->sys.pos_tar_trig_test[2].y=off_local[1]*flag[1];		
+in->sys.init_end_pos.z=in->pos_tar[2].z=in->sys.pos_tar_trig_test[2].z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.88*k_z;
+	
+in->pos_tar_trig[2].z=in->sys.init_end_pos.z;
+in->sys.limit.x=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
+in->sys.limit.y=(in->sys.l1+in->sys.l2+in->sys.l3)*0.98*0.25;	
+in->sys.limit.z=(in->sys.l1+in->sys.l2+in->sys.l3)*0.88;	
+	
+in->sys.limit_min.z=(in->sys.l3-(in->sys.l2-in->sys.l1))*1.05;
+
+in->sys.desire_time=0.4;
 
 int DL=88;
 in->sys.PWM_MIN[0]=500+DL;	
@@ -115,7 +122,7 @@ in->sys.leg_up_high=3;
 in->leg_ground=1;
 
 }	
-
+//位置超出可移动范围检测
 u8 pos_range_check(LEG_STRUCT * in,float x,float y,float z)
 {
  float r=(in->sys.l1+in->sys.l2+in->sys.l3)*1;
@@ -126,7 +133,7 @@ u8 pos_range_check(LEG_STRUCT * in,float x,float y,float z)
 	 return 1;
 }
 
-
+//从位置结算关节角度 
 void cal_sita_from_pos(LEG_STRUCT * in,float x_i,float y_i,float z_i,u8 out)
 {  
 u8 ero;	
@@ -161,21 +168,19 @@ float z=LIMIT(z_i,-in->sys.limit.z,in->sys.limit.z);
 	float d2=cos(in->sita[2]*AtR)*l3;
 	in->pos_now[1].x=(l1+h1)*sin(in->sita[2]*AtR);in->pos_now[1].y=-cos(in->sita[0]*AtR)*d1;in->pos_now[1].z=cos(in->sita[2]*AtR)*(l1+h1);
 	in->pos_now[2].x=(l1+h1+h2)*sin(in->sita[2]*AtR);in->pos_now[2].y=-cos(in->sita[0]*AtR)*d1+cos((180-in->sita[0]-in->sita[1])*AtR)*d2;in->pos_now[2].z=cos(in->sita[2]*AtR)*(l1+h1+h2);	
-  if(in->sys.leg_set_invert)
+
+	if(in->sys.leg_set_invert)
 		for(u8 i=0;i<3;i++)
 	   {
 		 in->pos_now[i].x*=-1;
 		 in->pos_now[i].y*=-1;
 		 }
-	
   if(isnan(in->sita[1])||isnan(in->sita[0]))
 		ero=1;
   }
-	//}
-	
 }	
 
-
+//从关节角度计算位置
 void cal_pos_from_sita(LEG_STRUCT * in,float sita1,float sita2,float sita3)
 {                                                                                                                                                                                                            
 
@@ -193,6 +198,7 @@ in->pos_now[2].x=(l1+h1+h2)*sin(sita3*AtR);in->pos_now[2].y=-cos(sita1*AtR)*d1+c
 
 }	
 
+//从关节角度计算舵机PWM
 void cal_pwm_from_sita(LEG_STRUCT * in)
 { u8 i=0;
 	in->sys.PWM_OUT[i]=LIMIT(in->sys.PWM_OFF[i]+0*in->sys.sita_flag[i]*in->sys.PWM_PER_DEGREE
@@ -202,6 +208,7 @@ void cal_pwm_from_sita(LEG_STRUCT * in)
 	in->sys.PWM_OUT[3]=LIMIT(in->sys.PWM_OFF[3],500,2500);
 }	
 
+//计算采样点曲线三维坐标
 float curve_cal(float c0,float c3,float c4,float c5,float c6,float t)
 {
 float temp;
@@ -209,11 +216,12 @@ temp=c0+c3*pow(t,3)+c4*pow(t,4)+c5*pow(t,5)+c6*pow(t,6);
 return temp;
 }
 
- float c0[3]; //x y z
- float c3[3];
- float c4[3];
- float c5[3];
- float c6[3];
+//计算二次曲线系数
+float c0[3]; //x y z
+float c3[3];
+float c4[3];
+float c5[3];
+float c6[3];
 void cal_curve_from_pos(LEG_STRUCT * in,float desire_time)
 {
 float pos_now[3];
@@ -225,8 +233,6 @@ pos_tar[Xs]=in->pos_tar_trig[2].x;
 pos_tar[Ys]=in->pos_tar_trig[2].y;
 pos_tar[Zs]=in->pos_tar_trig[2].z;
 	
-
-//void cal_curve(int ,float x0,float y0,float z0,float T1,float T2)
 		float t1=0;t1=desire_time/2; //middle 0.5s
     float t2=0;t2=desire_time; //end 1s
     float p0[3];
@@ -286,6 +292,7 @@ pos_tar[Zs]=in->pos_tar_trig[2].z;
 			-t1_4*t2*15*(p0_p2[i]));}
 }
 
+//读出规划曲线各采样三维位置
 void  cal_pos_tar_from_curve(LEG_STRUCT * in,float time_now)
 {
 float cal_curve[3];	
@@ -298,14 +305,14 @@ in->pos_tar[2].y=cal_curve[Ys];
 in->pos_tar[2].z=cal_curve[Zs];
 }	
 
-
-
-
+float rate_delay_kuai=0.1;
+float delay_time_kuai=0.66;
+//跨腿
 void leg_follow_curve(LEG_STRUCT * in,float desire_time,u8 *en,float dt)
 {
 static u16 ground_mask;	
 static u8 state;
-static float time;	
+static float time,delay;	
 //判断是否重合等
 	
 switch(state)
@@ -314,60 +321,85 @@ case 0:
 if(*en){//由着地点规划当前轨迹
 cal_curve_from_pos(in,desire_time);
 state=1;	
-ground_mask=time=0;	
-	if(!in->sys.use_ground_check)
-   in->leg_ground=0;
+ground_mask=time=delay=0;	
+//	if(!in->sys.use_ground_check)
+in->leg_ground=0;
 }
 break;
 case 1://有时间和轨迹计算每一时间的曲线坐标
-if(in->leg_ground&&ground_mask++>100)	
-state=*en=0;
+if(*en){
+cal_pos_tar_from_curve(in,time);
+time+=dt;
+if(time>desire_time*rate_delay_kuai)	
+{state=2;}
+}
+break;
+case 2:
+if(*en){
+delay+=dt;
+if(delay>delay_time_kuai)	
+{state=3;}
+}
+break;
+case 3:
 if(*en){
 cal_pos_tar_from_curve(in,time);
 time+=dt;
 if(time>desire_time)	
-	state=*en=0;
+{state=4;}
 }
-else
-{state=0;}	
-
 break;
-
+case 4:
+	in->leg_ground=1;
+  state=0;
+  if(in->rst_leg)
+		in->rst_leg=0;
+  *en=0;
+break;
 }	
 }
 
-
+//蹬腿
 void  cal_pos_tar_for_deng(LEG_STRUCT * in,float spdx,float spdy,float dt)
 {
+u8 id=in->sys.id;
 static u8 state;
 static float time;	
-	if(!in->sys.use_ground_check)
-   in->leg_ground=1;	
+//	if(!in->sys.use_ground_check)
+//   in->leg_ground=1;	
 //判断是否重合等
 	if(!in->err&&in->leg_ground){
+	 if(in->sys.leg_set_invert){	
 	in->pos_tar[2].x+=-spdx*dt;
 	in->pos_tar[2].y+=-spdy*dt;
-		
+	 }else{
+	in->pos_tar[2].x+=-spdx*dt;
+	in->pos_tar[2].y+=-spdy*dt;
+	 }
 	in->pos_tar[2].x=LIMIT(in->pos_tar[2].x,-in->sys.limit.x,in->sys.limit.x);
-	in->pos_tar[2].y=LIMIT(in->pos_tar[2].y,-in->sys.limit.x,in->sys.limit.y);
+	in->pos_tar[2].y=LIMIT(in->pos_tar[2].y,-in->sys.limit.y,in->sys.limit.y);
 	}
 //in->pos_tar[2].z=cal_curve[Zs];
 }	
 
-
+//着地检测
 void  leg_ground_check(LEG_STRUCT * in)
 {
-
+u8 id=in->sys.id;
 static u8 state;
 static float time;	
 //判断是否重合等
- if(!in->sys.use_ground_check)
+ if(!in->sys.use_ground_check&&in->sys.leg_ground_force==0)
  {
-   if(in->pos_now[2].z>=in->sys.init_end_pos.z*0.986)
-     in->leg_ground=1;
-	 else
-     in->leg_ground=0;
+//   if(in->pos_now[2].z>=in->sys.init_end_pos.z*0.96)
+//     in->leg_ground=1;
+//	 else
+//     in->leg_ground=0;
  }
+   if(in->sys.leg_ground_force==2)
+   in->leg_ground=1;
+	 else if(in->sys.leg_ground_force==1)
+	 in->leg_ground=0;	 
 }	
 
 
@@ -380,22 +412,43 @@ void leg_publish(LEG_STRUCT * in)
 float x_temp,y_temp,z_temp;
 static u16 cnt[5];	
 	if(in->sys.id==1||in->sys.id==3){
-	in->sys.off_all.x=brain.sys.center_off.x+center_control_out[Xr];
-	in->sys.off_all.y=brain.sys.center_off.y+center_control_out[Yr];
+	in->sys.off_all.x=brain.sys.center_off.x+center_control_out[Xr]*0;
+	in->sys.off_all.y=brain.sys.center_off.y+center_control_out[Yr]*0;
 	in->sys.off_all.z=brain.sys.center_off.z;
 	}
 	else
 	{
-	in->sys.off_all.x=brain.sys.center_off1.x+center_control_out[Xr];
-	in->sys.off_all.y=brain.sys.center_off1.y+center_control_out[Yr];
+	in->sys.off_all.x=brain.sys.center_off1.x+center_control_out[Xr]*0;
+	in->sys.off_all.y=brain.sys.center_off1.y+center_control_out[Yr]*0;
 	in->sys.off_all.z=brain.sys.center_off1.z;
 	}
 	in->sys.leg_up_high=brain.sys.leg_h;
 	in->sys.desire_time=brain.sys.desire_time;
-	if(brain.power_all)
+	if(brain.power_all)//&&in->sys.id!=1)
 		in->leg_power=1;
 	if(brain.control_mode)
 		in->control_mode=1;
+	
+	static u8 rst_all;
+	static u8 rst_flag=1;
+	switch(rst_all){
+		case 0:
+			if(brain.rst_all){
+			brain.spd=0;
+			leg[1].rst_leg=1;
+		  rst_all=1;
+			}
+		break;
+		case 1:
+			if(leg[rst_flag].rst_leg==0)
+			{rst_flag++;leg[rst_flag].rst_leg=1;}
+		if(rst_flag==5)
+		{rst_flag=1;brain.rst_all=0;rst_all=0;}
+		break;	
+	}
+
+	
+	
 	#if USE_BUS_DJ
 	if(in->leg_power==0){	
 		if(cnt[in->sys.id]++>1/0.02){cnt[in->sys.id]=0;
@@ -425,7 +478,8 @@ static u16 cnt[5];
 	}
 	
 	else{//----------------------not on control mode 强制测试摸个位置
-		in->pos_tar[2].x=0;in->pos_tar[2].y=0;in->pos_tar[2].z=in->sys.init_end_pos.z;in->leg_ground=1;
+		in->pos_tar[2].x=0;in->pos_tar[2].y=0;in->pos_tar[2].z=in->sys.init_end_pos.z;
+		//in->leg_ground=1;
 		 if(in->sys.leg_set_invert)
 	{	
 	x_temp=-(in->sys.init_end_pos.x-in->sys.off_all.x);
@@ -451,13 +505,25 @@ static u16 cnt[5];
 
 
 void leg_drive(LEG_STRUCT * in,float dt)
-{   u8 id=in->sys.id; 
-//    if(in->sys.pos_tar_trig_test[2].z!=in->sys.init_end_pos.z||in->sys.pos_tar_trig_test[2].y!=0.00||in->sys.pos_tar_trig_test[2].x!=0.00)		
-//		{
-//		in->pos_tar_trig[2].x=in->sys.pos_tar_trig_test[2].x;
-//		in->pos_tar_trig[2].y=in->sys.pos_tar_trig_test[2].y;
-//		in->pos_tar_trig[2].z=in->sys.pos_tar_trig_test[2].z;
-//		}
+{  
+ u8 id=in->sys.id; 	
+ static u8 init[5];	
+	if(!init[id])
+	{
+	init[id]=1;	
+	in->sys.pos_tar_reg[0]=in->pos_tar_trig[2].x;
+	in->sys.pos_tar_reg[1]=in->pos_tar_trig[2].y;
+	in->sys.pos_tar_reg[2]=in->pos_tar_trig[2].z;	
+	}
+   
+	  if(in->rst_leg)
+		{
+		in->pos_tar_trig[2].x=in->sys.init_end_pos.x;
+		in->pos_tar_trig[2].y=in->sys.init_end_pos.y;
+		in->pos_tar_trig[2].z=in->sys.init_end_pos.z+(float)RNG_Get_RandomRange(-1000,1000)/100000.;
+		}
+		
+	
 		if((in->pos_tar_trig[2].x!=in->sys.pos_tar_reg[0]||
 			 in->pos_tar_trig[2].y!=in->sys.pos_tar_reg[1]||
 			 in->pos_tar_trig[2].z!=in->sys.pos_tar_reg[2])&&!in->curve_trig)	
@@ -470,12 +536,13 @@ void leg_drive(LEG_STRUCT * in,float dt)
 		//蹬
 		if(!in->curve_trig&&(fabs(in->deng[1])>0||fabs(in->deng[0])>0))
 		cal_pos_tar_for_deng(in,in->deng[0],in->deng[1],dt);	
-					
+		//输出	
+	  leg_publish(in);
+		
 		in->sys.pos_tar_reg[0]=in->pos_tar_trig[2].x;
 		in->sys.pos_tar_reg[1]=in->pos_tar_trig[2].y;
 		in->sys.pos_tar_reg[2]=in->pos_tar_trig[2].z;
 		//
-	  leg_publish(in);
 }
 
 

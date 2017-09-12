@@ -93,7 +93,7 @@ leg_init(&leg[3],3);
 leg_init(&leg[4],4);	
  	while(1)
 	{	
-	leg_dt[4] = Get_Cycle_T(GET_T_BRAIN);								//获取外环准确的执行周期
+	leg_dt[4] = 0.02;//Get_Cycle_T(GET_T_BRAIN);								//获取外环准确的执行周期
 
 //	if(abs(Rc_Get.PITCH-1500)>50 && (leg[1].control_mode||leg[2].control_mode||leg[3].control_mode||leg[4].control_mode))
 //   brain.spd=	(Rc_Get.PITCH-1500)*k_rc[0];
@@ -128,7 +128,6 @@ leg_init(&leg[4],4);
 	if(KEY_SEL[3])//get control all
 	leg[1].control_mode =leg[2].control_mode=leg[3].control_mode =leg[4].control_mode=1;
 	
-	
 	if(KEY_SEL[2])//safe_mode
 	leg[1].leg_power=leg[2].leg_power=leg[3].leg_power=leg[4].leg_power=brain.power_all=brain.control_mode=0;	
 	//test[2]=inTrig(test[0],test[1],0,0,0,5,5,0);
@@ -136,20 +135,17 @@ leg_init(&leg[4],4);
 	//find_closet_point(test_id,test[0],0, 3,0, 5,0, 2,0 ,-1,0,test[2]);	
   //find_leg_need_move(0,0,0);		
 
-	leg_task(0.005);
-		
-	//center_control();	
-	cal_deng_from_spd(&brain);		
+	leg_task(leg_dt[4]);
 	
-	leg_drive(&leg[1],0.005);
-//	leg_drive(&leg[2],0.005);
-//	leg_drive(&leg[3],0.005);
-//	leg_drive(&leg[4],0.005);
-	Send_LEG(1);
-	Send_LEG(2);
-	Send_LEG(3);
-	Send_LEG(4);
-	delay_ms(5);
+	leg_drive(&leg[1],leg_dt[4]);
+	leg_drive(&leg[2],leg_dt[4]);
+	leg_drive(&leg[3],leg_dt[4]);
+	leg_drive(&leg[4],leg_dt[4]);
+//	Send_LEG(1);
+//	Send_LEG(2);
+//	Send_LEG(3);
+//	Send_LEG(4);
+	delay_ms(20);
 	}
 }		
 
@@ -177,7 +173,10 @@ void uart_task(void *pdata)
 //							MYDMA_Enable(DMA2_Stream7,leg_uart_cnt+2);     //开始一次DMA传输！	  
 //							}	
 						
-	
+		Send_LEG(1);
+		Send_LEG(2);
+		Send_LEG(3);
+		Send_LEG(4);
 											
 		delay_ms(20);  
 	}

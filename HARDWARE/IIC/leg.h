@@ -16,7 +16,7 @@ typedef struct
 typedef struct 
 {
 	float leg_up_high;
-	u8 leg_switch_flag;
+	u8 leg_switch_flag,leg_ground_force;
 	float z;
 	POS off_all,off_local;
 	POS init_end_pos;
@@ -48,7 +48,7 @@ typedef struct
 
 typedef struct 
 { u8 leg_connect,leg_ground,err;
-	u8 leg_power;
+	u8 leg_power,rst_leg;
 	u8 need_move;	
 	u8 curve_trig,control_mode;
 	POS pos_now[3],pos_now_brain[3];
@@ -76,15 +76,16 @@ typedef struct
 }BRAIN_SYS;
 
 typedef struct 
-{ u8 leg_connect,control_mode,power_all;
+{ u8 leg_connect,control_mode,power_all,rst_all;
 	u8 force_stop,loss_center,ground_leg_num;	
 	u8 leg_move[5];	
 	float att[3],now_spd[3],now_acc[3],tar_w,spd,spd_d,spd_yaw;
-
+  u8 center_stable;
+	float area_of_leg[2];
 	POS center;
 	double leg_ground_center[3];
 	float leg_move_range[2];//cm
-	
+	float center_off_when_move[2];
 	BRAIN_SYS sys;
 }BRAIN_STRUCT;
 extern u8 last_move_leg;
@@ -101,7 +102,7 @@ void leg_drive(LEG_STRUCT * in,float dt);
 void conver_legpos_to_barin(BRAIN_STRUCT *in,LEG_STRUCT * inl,u8 id);
 void estimate_center(BRAIN_STRUCT *in,float att[3],float spd_body[3],float acc_body[3],float spd_tar[3],float w_tar);
 void barin_init(BRAIN_STRUCT *in);
-void center_control(void);//PID
+void center_control(float dt);//PID
 void cal_center_of_leg_ground(BRAIN_STRUCT *in);//PID
 u8 inTrig(float x, float y,float x1,float y1,float x2,float y2,float x3,float y3); 
 u8 inTrig2(float x, float y,float x1,float y1,float x2,float y2,float x3,float y3,float x4,float y4) ;

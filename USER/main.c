@@ -110,7 +110,7 @@ void start_task(void *pdata)
  	//注册线程 	
 	 OSTaskCreate(brain_task,(void *)0,(OS_STK*)&BRAIN_TASK_STK[BRAIN_STK_SIZE-1],BRAIN_TASK_PRIO);//路径规划
 
-//	 OSTaskCreate(uart_task,(void *)0,(OS_STK*)&UART_TASK_STK[UART_STK_SIZE-1],UART_TASK_PRIO);
+	 OSTaskCreate(uart_task,(void *)0,(OS_STK*)&UART_TASK_STK[UART_STK_SIZE-1],UART_TASK_PRIO);
 
 //	 OSTaskCreate(leg1_task,(void *)0,(OS_STK*)&LEG1_TASK_STK[LEG_STK_SIZE-1],LEG1_TASK_PRIO);
 //	 OSTaskCreate(leg2_task,(void *)0,(OS_STK*)&LEG2_TASK_STK[LEG_STK_SIZE-1],LEG2_TASK_PRIO);
