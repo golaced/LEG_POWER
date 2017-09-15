@@ -61,7 +61,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\iic_soft.h)(0x56D65170)
@@ -145,7 +145,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\led_fc.h)(0x58C4B643)
@@ -1315,7 +1315,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\hml5833l.h)(0x56AB379A)
@@ -1383,7 +1383,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\circle.h)(0x57FC34C4)
@@ -1450,7 +1450,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\filter.h)(0x56AB30A6)
@@ -1515,7 +1515,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 F (..\HARDWARE\IIC\dma.c)(0x56B011FD)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\dma.o --omf_browse ..\obj\dma.crf --depend ..\obj\dma.d)
@@ -1655,7 +1655,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\UCOSII\CORE\ucos_ii.h)(0x500F7C16)
@@ -1723,7 +1723,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 F (..\HARDWARE\circle\OLD_X_AVOID_N.c)(0x58D3C36D)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\old_x_avoid_n.o --omf_browse ..\obj\old_x_avoid_n.crf --depend ..\obj\old_x_avoid_n.d)
@@ -1750,7 +1750,7 @@ I (..\HARDWARE\circle\rtGetNaN.h)(0x58D3C36D)
 I (d:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x56FE42DE)
 I (..\HARDWARE\circle\rtwtypes.h)(0x58D3C36D)
 I (..\HARDWARE\circle\rt_nonfinite.h)(0x58D3C36D)
-F (..\HARDWARE\IIC\leg.c)(0x59B10AD7)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\leg.o --omf_browse ..\obj\leg.crf --depend ..\obj\leg.d)
+F (..\HARDWARE\IIC\leg.c)(0x59BB8B34)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\leg.o --omf_browse ..\obj\leg.crf --depend ..\obj\leg.d)
 I (..\HARDWARE\IIC\include.h)(0x59A7F1FB)
 I (d:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x56FE42DE)
 I (d:\Keil_v5\ARM\ARMCC\include\string.h)(0x56FE42DE)
@@ -1811,10 +1811,10 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
-F (..\HARDWARE\IIC\brain.c)(0x59B10BC6)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\brain.o --omf_browse ..\obj\brain.crf --depend ..\obj\brain.d)
+F (..\HARDWARE\IIC\brain.c)(0x59BBD4E6)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\brain.o --omf_browse ..\obj\brain.crf --depend ..\obj\brain.d)
 I (..\HARDWARE\IIC\include.h)(0x59A7F1FB)
 I (d:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x56FE42DE)
 I (d:\Keil_v5\ARM\ARMCC\include\string.h)(0x56FE42DE)
@@ -1875,7 +1875,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 F (..\HARDWARE\IIC\fliter.c)(0x57F65390)(--c99 -c --cpu Cortex-M4.fp -g -W -O0 -Otime --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\FWLIB\inc -I ..\HARDWARE\TOUCH -I ..\HARDWARE\BEEP -I ..\UCOSII\CONFIG -I ..\UCOSII\CORE -I ..\UCOSII\PORT -I ..\HARDWARE\TPAD -I ..\MALLOC -I ..\HARDWARE\circle-I "D:\4Leg\LEG_POWER - CONTROL\USER\RTE"-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-I d:\Keil_v5\ARM\CMSIS\Include-I d:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="520" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER-o ..\obj\fliter.o --omf_browse ..\obj\fliter.crf --depend ..\obj\fliter.d)
@@ -1939,7 +1939,7 @@ I (..\HARDWARE\IIC\math.h)(0x56AB30B4)
 I (..\HARDWARE\IIC\height_ctrl.h)(0x58009818)
 I (..\HARDWARE\IIC\flash.h)(0x57FA2983)
 I (..\HARDWARE\IIC\dma.h)(0x56B011FD)
-I (..\HARDWARE\IIC\leg.h)(0x59B10001)
+I (..\HARDWARE\IIC\leg.h)(0x59BBD047)
 I (..\HARDWARE\IIC\rng.h)(0x5732940F)
 I (..\HARDWARE\IIC\m100.h)(0x57FEDC4D)
 I (..\HARDWARE\IIC\filter.h)(0x56AB30A6)

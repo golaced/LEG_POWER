@@ -80,10 +80,10 @@ typedef struct
 	u8 force_stop,loss_center,ground_leg_num;	
 	u8 leg_move[5];	
 	float att[3],now_spd[3],now_acc[3],tar_w,spd,spd_d,spd_yaw;
-  u8 center_stable;
+  u8 center_stable,move_id,center_change_over_for_trig;
 	float area_of_leg[2];
 	POS center;
-	double leg_ground_center[3];
+	double leg_ground_center[3],leg_ground_center_trig[3];
 	float leg_move_range[2];//cm
 	float center_off_when_move[2];
 	BRAIN_SYS sys;

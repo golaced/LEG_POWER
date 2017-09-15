@@ -60,7 +60,7 @@ break;
 case 3:	
 in->sys.leg_set_invert=1;	
 in->sys.PWM_OFF[0]=1060;	
-in->sys.PWM_OFF[1]=1540;	
+in->sys.PWM_OFF[1]=1810;//1540;	
 in->sys.PWM_OFF[2]=1480-SET_PWM3_OFF;	
 in->sys.PWM_OFF[3]=1425;
 in->sys.sita_flag[0]=1;
@@ -135,7 +135,8 @@ u8 pos_range_check(LEG_STRUCT * in,float x,float y,float z)
 
 //从位置结算关节角度 
 void cal_sita_from_pos(LEG_STRUCT * in,float x_i,float y_i,float z_i,u8 out)
-{  
+{ 
+u8 id=in->sys.id;	
 u8 ero;	
 float x=LIMIT(x_i,-in->sys.limit.x,in->sys.limit.x);	
 float y=LIMIT(y_i,-in->sys.limit.y,in->sys.limit.y);
@@ -310,48 +311,49 @@ float delay_time_kuai=0.66;
 //跨腿
 void leg_follow_curve(LEG_STRUCT * in,float desire_time,u8 *en,float dt)
 {
-static u16 ground_mask;	
-static u8 state;
-static float time,delay;	
+u8 id=in->sys.id;
+static u16 ground_mask[5];	
+static u8 state[5];
+static float time[5],delay[5];	
 //判断是否重合等
 	
-switch(state)
+switch(state[id])
 {
 case 0:
 if(*en){//由着地点规划当前轨迹
 cal_curve_from_pos(in,desire_time);
-state=1;	
-ground_mask=time=delay=0;	
+state[id]=1;	
+ground_mask[id]=time[id]=delay[id]=0;	
 //	if(!in->sys.use_ground_check)
 in->leg_ground=0;
 }
 break;
 case 1://有时间和轨迹计算每一时间的曲线坐标
 if(*en){
-cal_pos_tar_from_curve(in,time);
-time+=dt;
-if(time>desire_time*rate_delay_kuai)	
-{state=2;}
+cal_pos_tar_from_curve(in,time[id]);
+time[id]+=dt;
+if(time[id]>desire_time*rate_delay_kuai)	
+{state[id]=2;}
 }
 break;
 case 2:
 if(*en){
-delay+=dt;
-if(delay>delay_time_kuai)	
-{state=3;}
+delay[id]+=dt;
+if(delay[id]>delay_time_kuai)	
+{state[id]=3;}
 }
 break;
 case 3:
 if(*en){
-cal_pos_tar_from_curve(in,time);
-time+=dt;
-if(time>desire_time)	
-{state=4;}
+cal_pos_tar_from_curve(in,time[id]);
+time[id]+=dt;
+if(time[id]>desire_time)	
+{state[id]=4;}
 }
 break;
 case 4:
 	in->leg_ground=1;
-  state=0;
+  state[id]=0;
   if(in->rst_leg)
 		in->rst_leg=0;
   *en=0;

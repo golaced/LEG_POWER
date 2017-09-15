@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\UCOSII-3.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\UCOSII-3.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Thu Sep 07 17:05:12 2017
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060183: Last Updated: Fri Sep 15 21:25:59 2017
 <BR><P>
 <H3>Maximum Stack Usage =        544 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2214,6 +2214,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RNG_Get_RandomNum
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_drive
+<LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_leg_tar_trig
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_tar_est
 <LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;find_leg_need_move
 </UL>
@@ -2511,7 +2512,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cal_sita_from_pos
 </UL>
 
-<P><STRONG><a name="[14e]"></a>cal_sita_from_pos</STRONG> (Thumb, 2904 bytes, Stack size 160 bytes, leg.o(.text))
+<P><STRONG><a name="[14e]"></a>cal_sita_from_pos</STRONG> (Thumb, 2912 bytes, Stack size 160 bytes, leg.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = cal_sita_from_pos &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
@@ -2578,7 +2579,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[15d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_follow_curve
 </UL>
 
-<P><STRONG><a name="[15d]"></a>leg_follow_curve</STRONG> (Thumb, 284 bytes, Stack size 24 bytes, leg.o(.text))
+<P><STRONG><a name="[15d]"></a>leg_follow_curve</STRONG> (Thumb, 360 bytes, Stack size 24 bytes, leg.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 488<LI>Call Chain = leg_follow_curve &rArr; cal_curve_from_pos &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cal_pos_tar_from_curve
@@ -2587,7 +2588,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_drive
 </UL>
 
-<P><STRONG><a name="[162]"></a>cal_pos_tar_for_deng</STRONG> (Thumb, 264 bytes, Stack size 0 bytes, leg.o(.text))
+<P><STRONG><a name="[162]"></a>cal_pos_tar_for_deng</STRONG> (Thumb, 266 bytes, Stack size 0 bytes, leg.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_drive
 </UL>
 
@@ -2656,7 +2657,7 @@ Global Symbols
 <LI><a href="#[15a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[168]"></a>barin_init</STRONG> (Thumb, 530 bytes, Stack size 32 bytes, brain.o(.text))
+<P><STRONG><a name="[168]"></a>barin_init</STRONG> (Thumb, 532 bytes, Stack size 32 bytes, brain.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = barin_init &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -2686,7 +2687,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_task
 </UL>
 
-<P><STRONG><a name="[16c]"></a>find_leg_need_move</STRONG> (Thumb, 902 bytes, Stack size 88 bytes, brain.o(.text), UNUSED)
+<P><STRONG><a name="[16c]"></a>find_leg_need_move</STRONG> (Thumb, 908 bytes, Stack size 88 bytes, brain.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
@@ -2698,8 +2699,8 @@ Global Symbols
 <LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 </UL>
 
-<P><STRONG><a name="[16e]"></a>check_leg_need_move</STRONG> (Thumb, 486 bytes, Stack size 136 bytes, brain.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = check_leg_need_move &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
+<P><STRONG><a name="[16e]"></a>check_leg_need_move</STRONG> (Thumb, 1034 bytes, Stack size 168 bytes, brain.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 432<LI>Call Chain = check_leg_need_move &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
@@ -2710,7 +2711,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_task
 </UL>
 
-<P><STRONG><a name="[170]"></a>cal_center_of_leg_ground</STRONG> (Thumb, 1422 bytes, Stack size 160 bytes, brain.o(.text))
+<P><STRONG><a name="[170]"></a>cal_center_of_leg_ground</STRONG> (Thumb, 1428 bytes, Stack size 160 bytes, brain.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 192<LI>Call Chain = cal_center_of_leg_ground &rArr; __aeabi_ddiv
 </UL>
 <BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -2736,7 +2737,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_task
 </UL>
 
-<P><STRONG><a name="[174]"></a>leg_tar_est</STRONG> (Thumb, 3800 bytes, Stack size 104 bytes, brain.o(.text))
+<P><STRONG><a name="[174]"></a>leg_tar_est</STRONG> (Thumb, 3824 bytes, Stack size 104 bytes, brain.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 288<LI>Call Chain = leg_tar_est &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
@@ -2753,16 +2754,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[175]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_leg_tar_trig
 </UL>
 
-<P><STRONG><a name="[175]"></a>get_leg_tar_trig</STRONG> (Thumb, 476 bytes, Stack size 40 bytes, brain.o(.text))
+<P><STRONG><a name="[175]"></a>get_leg_tar_trig</STRONG> (Thumb, 484 bytes, Stack size 40 bytes, brain.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = get_leg_tar_trig &rArr; leg_tar_est &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_tar_est
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RNG_Get_RandomRange
 </UL>
 <BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;leg_task
 </UL>
 
-<P><STRONG><a name="[176]"></a>cal_deng_from_spd</STRONG> (Thumb, 706 bytes, Stack size 80 bytes, brain.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = cal_deng_from_spd &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
+<P><STRONG><a name="[176]"></a>cal_deng_from_spd</STRONG> (Thumb, 744 bytes, Stack size 96 bytes, brain.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = cal_deng_from_spd &rArr; __hardfp_cos &rArr; __ieee754_rem_pio2 &rArr; __aeabi_dmul
 </UL>
 <BR>[Calls]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cos
 <LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
@@ -2776,7 +2778,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[80]"></a>leg_task</STRONG> (Thumb, 212 bytes, Stack size 32 bytes, brain.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 432<LI>Call Chain = leg_task &rArr; check_leg_need_move &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
+<BR><BR>[Stack]<UL><LI>Max Depth = 464<LI>Call Chain = leg_task &rArr; check_leg_need_move &rArr; __hardfp_pow &rArr; sqrt &rArr; _dsqrt &rArr; __fpl_dnaninf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d

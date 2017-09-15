@@ -240,22 +240,6 @@
           <ExecCommand></ExecCommand>
           <Expression>\\UCOSII_3\stm32f4xx_it.c\66</Expression>
         </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>236</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134254060</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\HARDWARE\IIC\leg.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\UCOSII_3\../HARDWARE/IIC/leg.c\236</Expression>
-        </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
@@ -412,6 +396,16 @@
           <count>30</count>
           <WinNumber>1</WinNumber>
           <ItemText>\\UCOSII_3\../HARDWARE/IIC/leg.c\leg[1].pos_tar_trig</ItemText>
+        </Ww>
+        <Ww>
+          <count>31</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>leg_out_cnt</ItemText>
+        </Ww>
+        <Ww>
+          <count>32</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>id_need_to_move_global</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -574,6 +568,21 @@
           <count>31</count>
           <WinNumber>2</WinNumber>
           <ItemText>\\UCOSII_3\../HARDWARE/IIC/leg.c\leg[1].err</ItemText>
+        </Ww>
+        <Ww>
+          <count>32</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>\\UCOSII_3\../HARDWARE/IIC/leg.c\leg[3].pos_tar_trig</ItemText>
+        </Ww>
+        <Ww>
+          <count>33</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>\\UCOSII_3\../HARDWARE/IIC/leg.c\leg[1].pos_tar_trig</ItemText>
+        </Ww>
+        <Ww>
+          <count>34</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>\\UCOSII_3\../HARDWARE/IIC/leg.c\leg[1].pos_tar_trig[2]</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>

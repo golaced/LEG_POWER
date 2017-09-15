@@ -138,7 +138,7 @@ void find_closet_point(u8*min_id,float x, float y,float x1,float y1,float x2,flo
 void barin_init(BRAIN_STRUCT *in)
 {
 float W=5.7*2;//cm	
-float L=16.7;
+float L=18.5;
 in->sys.leg_local[1].x=W/2;
 in->sys.leg_local[1].y=L/2;
 in->sys.leg_local[1].z=0;	
@@ -163,10 +163,11 @@ cal_area_trig(in->sys.leg_local[4].x,in->sys.leg_local[4].y,
 in->sys.leg_local[2].x,in->sys.leg_local[2].y,
 in->sys.leg_local[3].x,in->sys.leg_local[3].y)/2;
 	
-in->leg_move_range[Xr]=leg[1].sys.limit.x*0.98;//cm	
+
 in->leg_move_range[Yr]=leg[1].sys.limit.y*0.98;//cm		
-	
-in->sys.k_spd_to_range=0.88;
+in->leg_move_range[Xr]=in->leg_move_range[Yr]*0.68;//cm	
+
+in->sys.k_spd_to_range=3.68;//0.88;
 in->sys.center_off.x=0;
 in->sys.center_off.y=0;
 in->sys.center_off1.x=0;
@@ -176,7 +177,7 @@ in->center_off_when_move[Xr]=-0.2;
 in->center_off_when_move[Yr]=-0.88;
 in->sys.leg_t=0.5;
 in->sys.leg_h=4.68;
-in->sys.desire_time=0.76;
+in->sys.desire_time=0.56;//0.76;
 leg[1].sys.id=1;
 leg[2].sys.id=2;
 leg[3].sys.id=3;
@@ -313,14 +314,24 @@ void check_leg_need_move(BRAIN_STRUCT *in,float spd_body[3],float spd_tar[3],flo
 		}
 		
  //超出移动范围需要跨腿
+ u8 out_cnt=0;
  for(i=1;i<5;i++){//in->sys.center_off.x+
 	//check out range
-	 float length; 
-	 length=my_sqrt(pow(leg[i].pos_now[2].x+dt*spd_tar[Xr],2)+pow(leg[i].pos_now[2].y+dt*spd_tar[Yr],2));	 
-	 if(length>in->leg_move_range[Xr])
+	 float length,tar_x,tar_y,spd;
+	 tar_x=leg[i].pos_now[2].x+dt*LIMIT(spd_tar[Xr],-2,2)*6;
+	 tar_y=leg[i].pos_now[2].y+dt*LIMIT(spd_tar[Yr],-2,2)*6;
+	 spd=my_sqrt(pow(spd_tar[Xr],2)+pow(spd_tar[Yr],2));	 
+	 length=my_sqrt(pow(tar_x-0,2)+pow(tar_y-0,2));	 
+	 float b=in->leg_move_range[Xr];
+	 float a=in->leg_move_range[Yr];
+	 float temp=pow(tar_x/b,2)+pow(tar_y/a,2);
+	 float temp1=pow(leg[i].pos_now[2].x/b,2)+pow(leg[i].pos_now[2].y/a,2);
+	 if(temp<1&&temp1>1&&spd>0)//&&length>in->leg_move_range[Xr])
 	 { leg[i].need_move+=1;
 		 in->force_stop=1;
 	 }
+	 if(temp1>1)
+		  out_cnt++;
  } 
 
  //重心丢失需要跨腿
@@ -329,8 +340,8 @@ void check_leg_need_move(BRAIN_STRUCT *in,float spd_body[3],float spd_tar[3],flo
  switch(in->ground_leg_num) 
  {	 
  case 3://三条腿
- temp_x=dt*spd_tar[Xr]+in->center.x+0;
- temp_y=dt*spd_tar[Yr]+in->center.y+0;
+ temp_x=dt*LIMIT(spd_tar[Xr],-2,2)+in->center.x+0;
+ temp_y=dt*LIMIT(spd_tar[Yr],-2,2)+in->center.y+0;
  if(inTrig(temp_x,temp_y,end_pos[0][Xr],end_pos[0][Yr],end_pos[1][Xr],end_pos[1][Yr],end_pos[2][Xr],end_pos[2][Yr]))
 	 brain.loss_center=0;//
  else
@@ -345,8 +356,8 @@ void check_leg_need_move(BRAIN_STRUCT *in,float spd_body[3],float spd_tar[3],flo
  lose_center_flag=brain.loss_center;
  break;
  case 4://四条腿
- temp_x=dt*spd_tar[Xr]+in->center.x+0;
- temp_y=dt*spd_tar[Yr]+in->center.y+0;
+ temp_x=dt*LIMIT(spd_tar[Xr],-2,2)+in->center.x+0;
+ temp_y=dt*LIMIT(spd_tar[Yr],-2,2)+in->center.y+0;
  brain.loss_center=!inTrig2(temp_x,temp_y,end_pos[0][Xr],end_pos[0][Yr],end_pos[1][Xr],end_pos[1][Yr],end_pos[2][Xr],end_pos[2][Yr],end_pos[3][Xr],end_pos[3][Yr]);
  if(brain.loss_center&&!lose_center_flag)
  {
@@ -400,7 +411,7 @@ switch(in->ground_leg_num)
 
 //重心控制
 float center_control_out[2];
-float k_center_c[2]={4.6,4.6};
+float k_center_c[2]={6.6,6.6};
 float flt=0.86;
 void center_control(float dt)//中心控制PID
 {
@@ -489,8 +500,8 @@ u8 loss_center_id[4];
  if(dt_leg_min_trig_cnt++>2*brain.sys.desire_time/dt)
 	 can_move_leg=1;
  
- u8 id_need_to_move=4;
- for(i=1;i<4;i++)
+ u8 id_need_to_move=RNG_Get_RandomRange(1,4);
+ for(i=1;i<5;i++)
    if(leg[i].sys.leg_move_pass_cnt>leg[id_need_to_move].sys.leg_move_pass_cnt)
 		  id_need_to_move=i;
 	 
@@ -513,15 +524,16 @@ float yaw=in->spd_yaw;
 	
   if(in->force_stop)
 		spd=0;
-  in->sys.tar_spd[Xr]=spdx=sin(yaw*0.0173)*spd;
-	in->sys.tar_spd[Yr]=spdy=cos(yaw*0.0173)*spd;
 	float k_move=1;
-	if(brain.ground_leg_num<4)
-		k_move=0.68;
+	if(brain.ground_leg_num<4)k_move=0.68;
+  in->sys.tar_spd[Xr]=spdx=sin(yaw*0.0173)*spd*k_move;
+	in->sys.tar_spd[Yr]=spdy=cos(yaw*0.0173)*spd*k_move;
+	
+	
 		for(i=1;i<5;i++){
 		if((leg[i].control_mode||in->control_mode)&&leg[i].leg_ground&&!leg[i].sys.leg_ground_force){	
-		leg[i].deng[Xr]=LIMIT(spdx*k_move+1*center_control_out[Xr],-8.8,8.8);
-		leg[i].deng[Yr]=LIMIT(spdy*k_move+1*center_control_out[Yr],-8.8,8.8);	}
+		leg[i].deng[Xr]=LIMIT(spdx+1*center_control_out[Xr],-8.8,8.8);
+		leg[i].deng[Yr]=LIMIT(spdy+1*center_control_out[Yr],-8.8,8.8);	}
 		}
 }
 
@@ -539,7 +551,7 @@ if(init){
 	
 			estimate_center(&brain,brain.att,brain.now_spd,brain.now_acc,brain.sys.tar_spd,brain.tar_w);//估计机体重心
 
-			cal_center_of_leg_ground(&brain);
+			cal_center_of_leg_ground(&brain);//估计着地多边形
 
 			check_leg_need_move(&brain,brain.now_spd,brain.sys.tar_spd,brain.tar_w,dt);//判断需要跨的脚
 			 
