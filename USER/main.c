@@ -33,7 +33,11 @@ int main(void)
   RNG_Init();
 	Delay_ms(100);
 //------------------------Uart Init-------------------------------------
-	Usart1_Init(256000L);			//FC RC
+	#if USE_DJ_CONTROL_BOARD
+	Usart1_Init(115200);
+	#else
+	Usart1_Init(256000L);			//FC RC1
+	#endif
 	#if EN_DMA_UART1 
 	MYDMA_Config(DMA2_Stream7,DMA_Channel_4,(u32)&USART1->DR,(u32)SendBuff1,SEND_BUF_SIZE1+2,1);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
 	#endif
@@ -49,12 +53,9 @@ int main(void)
 	Usart3_Init(38400);     //LEG2
 	#if EN_DMA_UART3
 	MYDMA_Config(DMA1_Stream3,DMA_Channel_4,(u32)&USART3->DR,(u32)SendBuff3,SEND_BUF_SIZE3+2,2);//DMA2,STEAM7,CH4,外设为串口1,存储器为SendBuff,长度为:SEND_BUF_SIZE.
-  #endif
-	#if USE_DJ_CONTROL_BOARD
-	Uart5_Init(115200);
-	#else
+  #endif	
   Uart5_Init (38400);     //LEG4
-	#endif
+
 	Delay_ms(100);
 	
 	Uart6_Init (115200L);     //IDLE

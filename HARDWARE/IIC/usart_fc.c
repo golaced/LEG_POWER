@@ -405,6 +405,12 @@ void Uart6_Init(u32 br_num)//-----odroid
 //USART_SendData(UART5, ch); 
 //}
 
+void UsartSend_LEG_DJ(uint8_t ch)
+{
+while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+USART_SendData(USART1, ch); 
+}
+
 void UsartSend_LEG4(uint8_t ch)
 {
 while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
@@ -430,7 +436,7 @@ static void UsartSend_LEG_BUF(u8 *dataToSend , u8 length,u8 sel)
 u16 i;
   for(i=0;i<length;i++)
 	#if USE_DJ_CONTROL_BOARD
-	UsartSend_LEG1(dataToSend[i]);
+	UsartSend_LEG_DJ(dataToSend[i]);
 	#else
    switch(sel){
 	case 1:		 

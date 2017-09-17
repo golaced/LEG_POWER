@@ -135,7 +135,7 @@ leg_init(&leg[4],4);
 	//find_closet_point(test_id,test[0],0, 3,0, 5,0, 2,0 ,-1,0,test[2]);	
   //find_leg_need_move(0,0,0);		
 
-	leg_task(leg_dt[4]);
+	leg_task1(leg_dt[4]);
 	
 	leg_drive(&leg[1],leg_dt[4]);
 	leg_drive(&leg[2],leg_dt[4]);
